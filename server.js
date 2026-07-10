@@ -478,6 +478,7 @@ app.use("/dashboard", (req, res, next) => {
 app.use("/dashboard", express.static(path.join(ROOT, "dashboard")));
 
 // ---------- The existing static site ----------
+app.get("/", (req, res) => res.redirect("/Next%20Vision%20Agency.dc.html"));
 app.use(express.static(ROOT));
 
 // eslint-disable-next-line no-unused-vars
