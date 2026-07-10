@@ -93,8 +93,15 @@ function requireAuth(req, res, next) {
 
 // Never let the static file server expose server internals (the dashboard has its
 // own auth-gated static handler registered separately below, so it's not blocked here).
+// Also blocks dotfiles/dot-directories (.git, .env*, .vercel, .claude, ...) — Vercel's
+// build can end up including more of the project tree than intended, and
+// express.static has no allowlist of its own, so this is the actual boundary.
 app.use((req, res, next) => {
-  if (/^\/(data|lib|node_modules)(\/|$)/.test(req.path) || /^\/(server\.js|package\.json|package-lock\.json)$/.test(req.path)) {
+  if (
+    /^\/(data|lib|node_modules)(\/|$)/.test(req.path) ||
+    /^\/(server\.js|package\.json|package-lock\.json|vercel\.json)$/.test(req.path) ||
+    /(^|\/)\.[^/]+/.test(req.path)
+  ) {
     return res.status(404).end();
   }
   next();
