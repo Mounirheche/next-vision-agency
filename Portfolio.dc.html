@@ -135,6 +135,10 @@ function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+function isSafeUrl(url) {
+  return typeof url === 'string' && /^https?:\/\/\S+$/i.test(url);
+}
+
 class Component extends DCLogic {
   wireReveal(container) {
     const reveals = Array.from(container.querySelectorAll('.nv-reveal'));
@@ -261,7 +265,7 @@ class Component extends DCLogic {
     if (item.image) slides.push({ type: 'image', url: item.image });
     (item.gallery || []).forEach((g) => slides.push(g));
     const hasDescription = !!(item.description && item.description.en);
-    if (!slides.length && item.projectUrl && !hasDescription) {
+    if (!slides.length && isSafeUrl(item.projectUrl) && !hasDescription) {
       window.open(item.projectUrl, '_blank', 'noopener');
       return;
     }
@@ -276,7 +280,7 @@ class Component extends DCLogic {
       descEl.style.display = 'none';
     }
     const visitBtn = el.querySelector('[data-lb-visit]');
-    if (item.projectUrl) {
+    if (isSafeUrl(item.projectUrl)) {
       visitBtn.href = item.projectUrl;
       visitBtn.style.display = 'inline-flex';
     } else {

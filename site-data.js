@@ -11,6 +11,10 @@
     });
   }
 
+  function isSafeUrl(url) {
+    return typeof url === "string" && /^https?:\/\/\S+$/i.test(url);
+  }
+
   function applyContactInfo(settings) {
     if (!settings) return;
 
@@ -39,7 +43,7 @@
     var socials = settings.social || {};
     ["facebook", "instagram", "linkedin", "twitter"].forEach(function (key) {
       document.querySelectorAll('[data-nv-contact="' + key + '"]').forEach(function (el) {
-        if (socials[key]) {
+        if (isSafeUrl(socials[key])) {
           el.setAttribute("href", socials[key]);
           el.style.display = "";
         } else {

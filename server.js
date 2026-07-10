@@ -2,6 +2,7 @@
 const express = require("express");
 require("express-async-errors"); // must load after express, before routes are defined
 const cookieSession = require("cookie-session");
+const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
@@ -91,6 +92,53 @@ function requireAuth(req, res, next) {
   return res.status(401).json({ error: "Unauthorized" });
 }
 
+// ---------- Input validation helpers ----------
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(s) {
+  return typeof s === "string" && s.length > 0 && s.length <= 254 && EMAIL_RE.test(s);
+}
+// Only http(s) links are ever placed into href/src by the frontend; anything else
+// (javascript:, data:, vbscript:, ...) would execute in a visitor's browser as
+// stored XSS if an admin account were ever compromised. Empty is allowed since
+// these fields are all optional.
+function isSafeUrl(s) {
+  if (s === undefined || s === null || s === "") return true;
+  return typeof s === "string" && s.length <= 2000 && /^https?:\/\/\S+$/i.test(s);
+}
+function clampLen(s, max) {
+  return String(s === undefined || s === null ? "" : s).slice(0, max);
+}
+
+// Vercel sits in front of this app as a reverse proxy — without trusting it, every
+// request looks like it comes from the same upstream IP and rate limiting would
+// either block everyone together or nobody at all.
+app.set("trust proxy", 1);
+
+// express-rate-limit tracks per-IP; layering a strict limiter on a route on top of
+// the general one below means both budgets have to allow the request through.
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many login attempts. Please try again later." },
+});
+const contactLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many messages sent. Please try again later." },
+});
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please slow down." },
+});
+app.use("/api", apiLimiter);
+
 // Never let the static file server expose server internals (the dashboard has its
 // own auth-gated static handler registered separately below, so it's not blocked here).
 // Also blocks dotfiles/dot-directories (.git, .env*, .vercel, .claude, ...) — Vercel's
@@ -108,9 +156,12 @@ app.use((req, res, next) => {
 });
 
 // ---------- Auth ----------
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", loginLimiter, async (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password) return res.status(400).json({ error: "Missing credentials" });
+  if (String(username).length > 200 || String(password).length > 200) {
+    return res.status(400).json({ error: "Invalid username or password" });
+  }
   if (await authLib.checkLogin(username, password)) {
     req.session.user = username;
     return res.json({ ok: true });
@@ -132,8 +183,8 @@ app.put("/api/account/password", requireAuth, async (req, res) => {
   if (!currentPassword || !newPassword) {
     return res.status(400).json({ error: "Current and new password are required." });
   }
-  if (String(newPassword).length < 6) {
-    return res.status(400).json({ error: "New password must be at least 6 characters." });
+  if (String(newPassword).length < 6 || String(newPassword).length > 200 || String(currentPassword).length > 200) {
+    return res.status(400).json({ error: "New password must be between 6 and 200 characters." });
   }
   const result = await authLib.changePassword(req.session.user, currentPassword, newPassword);
   if (result.error) return res.status(400).json({ error: result.error });
@@ -149,10 +200,14 @@ app.post("/api/account/users", requireAuth, async (req, res) => {
   if (!username || !password) {
     return res.status(400).json({ error: "Username and password are required." });
   }
-  if (String(password).length < 6) {
-    return res.status(400).json({ error: "Password must be at least 6 characters." });
+  if (String(password).length < 6 || String(password).length > 200) {
+    return res.status(400).json({ error: "Password must be between 6 and 200 characters." });
   }
-  const result = await authLib.addUser(String(username).trim(), password);
+  const trimmedUsername = String(username).trim();
+  if (!trimmedUsername || trimmedUsername.length > 100) {
+    return res.status(400).json({ error: "Username must be between 1 and 100 characters." });
+  }
+  const result = await authLib.addUser(trimmedUsername, password);
   if (result.error) return res.status(400).json({ error: result.error });
   res.status(201).json({ ok: true });
 });
@@ -174,19 +229,28 @@ app.get("/api/settings", async (req, res) => {
 app.put("/api/settings", requireAuth, async (req, res) => {
   const current = await db.read("settings", seed.DEFAULT_SETTINGS);
   const body = req.body || {};
+  const social = body.social || {};
+  for (const key of ["facebook", "instagram", "linkedin", "twitter"]) {
+    if (social[key] !== undefined && !isSafeUrl(social[key])) {
+      return res.status(400).json({ error: `The ${key} link must be a valid http(s) URL.` });
+    }
+  }
+  if (body.email !== undefined && body.email && !isValidEmail(body.email)) {
+    return res.status(400).json({ error: "Please enter a valid email address." });
+  }
   const next = {
-    email: typeof body.email === "string" ? body.email : current.email,
-    phone: typeof body.phone === "string" ? body.phone : current.phone,
-    whatsapp: typeof body.whatsapp === "string" ? body.whatsapp : current.whatsapp,
+    email: typeof body.email === "string" ? clampLen(body.email, 254) : current.email,
+    phone: typeof body.phone === "string" ? clampLen(body.phone, 40) : current.phone,
+    whatsapp: typeof body.whatsapp === "string" ? clampLen(body.whatsapp, 40) : current.whatsapp,
     address: {
-      en: body.address && typeof body.address.en === "string" ? body.address.en : current.address.en,
-      ar: body.address && typeof body.address.ar === "string" ? body.address.ar : current.address.ar,
+      en: body.address && typeof body.address.en === "string" ? clampLen(body.address.en, 300) : current.address.en,
+      ar: body.address && typeof body.address.ar === "string" ? clampLen(body.address.ar, 300) : current.address.ar,
     },
     social: {
-      facebook: (body.social && body.social.facebook) ?? current.social.facebook,
-      instagram: (body.social && body.social.instagram) ?? current.social.instagram,
-      linkedin: (body.social && body.social.linkedin) ?? current.social.linkedin,
-      twitter: (body.social && body.social.twitter) ?? current.social.twitter,
+      facebook: clampLen((social.facebook ?? current.social.facebook) || "", 500),
+      instagram: clampLen((social.instagram ?? current.social.instagram) || "", 500),
+      linkedin: clampLen((social.linkedin ?? current.social.linkedin) || "", 500),
+      twitter: clampLen((social.twitter ?? current.social.twitter) || "", 500),
     },
   };
   await db.write("settings", next);
@@ -265,18 +329,21 @@ app.get("/api/portfolio", async (req, res) => {
 });
 
 app.post("/api/portfolio", requireAuth, portfolioMediaFields, async (req, res) => {
-  const list = await db.read("portfolio", seed.DEFAULT_PORTFOLIO);
   const body = req.body || {};
+  if (body.projectUrl && !isSafeUrl(body.projectUrl)) {
+    return res.status(400).json({ error: "Project link must be a valid http(s) URL." });
+  }
+  const list = await db.read("portfolio", seed.DEFAULT_PORTFOLIO);
   const files = req.files || {};
   const item = {
     id: crypto.randomBytes(6).toString("hex"),
-    title: { en: body.titleEn || "", ar: body.titleAr || "" },
-    category: { en: body.categoryEn || "", ar: body.categoryAr || "" },
+    title: { en: clampLen(body.titleEn, 200), ar: clampLen(body.titleAr, 200) },
+    category: { en: clampLen(body.categoryEn, 200), ar: clampLen(body.categoryAr, 200) },
     tag: ["web", "mobile", "branding"].includes(body.tag) ? body.tag : "web",
     image: files.image && files.image[0] ? await saveUploadedFile(files.image[0], "portfolio") : null,
-    projectUrl: body.projectUrl || "",
+    projectUrl: clampLen(body.projectUrl, 2000),
     gallery: await saveGalleryFiles(files.gallery, "portfolio"),
-    description: { en: body.descriptionEn || "", ar: body.descriptionAr || "" },
+    description: { en: clampLen(body.descriptionEn, 5000), ar: clampLen(body.descriptionAr, 5000) },
   };
   list.push(item);
   await db.write("portfolio", list);
@@ -284,10 +351,13 @@ app.post("/api/portfolio", requireAuth, portfolioMediaFields, async (req, res) =
 });
 
 app.put("/api/portfolio/:id", requireAuth, portfolioMediaFields, async (req, res) => {
+  const body = req.body || {};
+  if (body.projectUrl !== undefined && body.projectUrl && !isSafeUrl(body.projectUrl)) {
+    return res.status(400).json({ error: "Project link must be a valid http(s) URL." });
+  }
   const list = await db.read("portfolio", seed.DEFAULT_PORTFOLIO);
   const idx = list.findIndex((p) => p.id === req.params.id);
   if (idx === -1) return res.status(404).json({ error: "Not found" });
-  const body = req.body || {};
   const files = req.files || {};
   const current = list[idx];
 
@@ -306,15 +376,15 @@ app.put("/api/portfolio/:id", requireAuth, portfolioMediaFields, async (req, res
 
   const next = {
     ...current,
-    title: { en: body.titleEn ?? current.title.en, ar: body.titleAr ?? current.title.ar },
-    category: { en: body.categoryEn ?? current.category.en, ar: body.categoryAr ?? current.category.ar },
+    title: { en: body.titleEn !== undefined ? clampLen(body.titleEn, 200) : current.title.en, ar: body.titleAr !== undefined ? clampLen(body.titleAr, 200) : current.title.ar },
+    category: { en: body.categoryEn !== undefined ? clampLen(body.categoryEn, 200) : current.category.en, ar: body.categoryAr !== undefined ? clampLen(body.categoryAr, 200) : current.category.ar },
     tag: ["web", "mobile", "branding"].includes(body.tag) ? body.tag : current.tag,
     image: files.image && files.image[0] ? await saveUploadedFile(files.image[0], "portfolio") : current.image,
-    projectUrl: body.projectUrl !== undefined ? body.projectUrl : current.projectUrl,
+    projectUrl: body.projectUrl !== undefined ? clampLen(body.projectUrl, 2000) : current.projectUrl,
     gallery,
     description: {
-      en: body.descriptionEn !== undefined ? body.descriptionEn : (current.description && current.description.en) || "",
-      ar: body.descriptionAr !== undefined ? body.descriptionAr : (current.description && current.description.ar) || "",
+      en: body.descriptionEn !== undefined ? clampLen(body.descriptionEn, 5000) : (current.description && current.description.en) || "",
+      ar: body.descriptionAr !== undefined ? clampLen(body.descriptionAr, 5000) : (current.description && current.description.ar) || "",
     },
   };
   list[idx] = next;
@@ -359,9 +429,9 @@ app.post("/api/testimonials", requireAuth, photoUpload.single("photo"), async (r
   const body = req.body || {};
   const item = {
     id: crypto.randomBytes(6).toString("hex"),
-    name: { en: body.nameEn || "", ar: body.nameAr || "" },
-    role: { en: body.roleEn || "", ar: body.roleAr || "" },
-    quote: { en: body.quoteEn || "", ar: body.quoteAr || "" },
+    name: { en: clampLen(body.nameEn, 150), ar: clampLen(body.nameAr, 150) },
+    role: { en: clampLen(body.roleEn, 150), ar: clampLen(body.roleAr, 150) },
+    quote: { en: clampLen(body.quoteEn, 1000), ar: clampLen(body.quoteAr, 1000) },
     rating: clampRating(body.rating, 5),
     photo: req.file ? await saveUploadedFile(req.file, "testimonial") : null,
   };
@@ -378,9 +448,9 @@ app.put("/api/testimonials/:id", requireAuth, photoUpload.single("photo"), async
   const current = list[idx];
   const next = {
     ...current,
-    name: { en: body.nameEn ?? current.name.en, ar: body.nameAr ?? current.name.ar },
-    role: { en: body.roleEn ?? current.role.en, ar: body.roleAr ?? current.role.ar },
-    quote: { en: body.quoteEn ?? current.quote.en, ar: body.quoteAr ?? current.quote.ar },
+    name: { en: body.nameEn !== undefined ? clampLen(body.nameEn, 150) : current.name.en, ar: body.nameAr !== undefined ? clampLen(body.nameAr, 150) : current.name.ar },
+    role: { en: body.roleEn !== undefined ? clampLen(body.roleEn, 150) : current.role.en, ar: body.roleAr !== undefined ? clampLen(body.roleAr, 150) : current.role.ar },
+    quote: { en: body.quoteEn !== undefined ? clampLen(body.quoteEn, 1000) : current.quote.en, ar: body.quoteAr !== undefined ? clampLen(body.quoteAr, 1000) : current.quote.ar },
     rating: clampRating(body.rating, current.rating),
     photo: req.file ? await saveUploadedFile(req.file, "testimonial") : current.photo,
   };
@@ -400,16 +470,19 @@ app.delete("/api/testimonials/:id", requireAuth, async (req, res) => {
 });
 
 // ---------- Contact messages ----------
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   const body = req.body || {};
-  const name = (body.name || "").trim();
-  const email = (body.email || "").trim();
-  const whatsapp = (body.whatsapp || "").trim();
-  const country = (body.country || "").trim();
-  const subject = (body.subject || "").trim();
-  const message = (body.message || "").trim();
+  const name = clampLen((body.name || "").trim(), 150);
+  const email = clampLen((body.email || "").trim(), 254);
+  const whatsapp = clampLen((body.whatsapp || "").trim(), 40);
+  const country = clampLen((body.country || "").trim(), 100);
+  const subject = clampLen((body.subject || "").trim(), 200);
+  const message = clampLen((body.message || "").trim(), 5000);
   if (!name || !email || !message) {
     return res.status(400).json({ error: "Name, email, and message are required." });
+  }
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ error: "Please enter a valid email address." });
   }
   const list = await db.read("messages", seed.DEFAULT_MESSAGES);
   const entry = {
@@ -464,8 +537,8 @@ app.put("/api/content", requireAuth, async (req, res) => {
     const v = body[key];
     if (v && typeof v === "object") {
       next[key] = {
-        en: typeof v.en === "string" ? v.en : (current[key] && current[key].en) || "",
-        ar: typeof v.ar === "string" ? v.ar : (current[key] && current[key].ar) || "",
+        en: typeof v.en === "string" ? clampLen(v.en, 5000) : (current[key] && current[key].en) || "",
+        ar: typeof v.ar === "string" ? clampLen(v.ar, 5000) : (current[key] && current[key].ar) || "",
       };
     }
   }

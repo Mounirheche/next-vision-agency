@@ -128,6 +128,10 @@ function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
 
+function isSafeUrl(url) {
+  return typeof url === 'string' && /^https?:\/\/\S+$/i.test(url);
+}
+
 class Component extends DCLogic {
   wireReveal(container) {
     const reveals = Array.from(container.querySelectorAll('.nv-reveal'));
@@ -202,7 +206,7 @@ class Component extends DCLogic {
     }
 
     const visitLink = document.getElementById('proj-visit-link');
-    if (item.projectUrl) {
+    if (isSafeUrl(item.projectUrl)) {
       visitLink.href = item.projectUrl;
       visitLink.style.display = 'inline-flex';
     } else {
