@@ -1,5 +1,6 @@
 "use strict";
 const express = require("express");
+require("express-async-errors"); // must load after express, before routes are defined
 const cookieSession = require("cookie-session");
 const multer = require("multer");
 const path = require("path");
@@ -213,6 +214,13 @@ async function saveUploadedFile(file, prefix) {
     if (error) throw error;
     const { data } = supabase.client.storage.from(STORAGE_BUCKET).getPublicUrl(filename);
     return data.publicUrl;
+  }
+  if (process.env.VERCEL) {
+    // No writable, servable disk here without Supabase — fail the upload
+    // cleanly instead of crashing on a read-only filesystem.
+    const err = new Error("File uploads need Supabase Storage configured (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) — add them in Vercel's project settings and redeploy.");
+    err.statusCode = 503;
+    throw err;
   }
   if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
   fs.writeFileSync(path.join(UPLOAD_DIR, filename), file.buffer);
@@ -464,6 +472,9 @@ app.use(express.static(ROOT));
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError || /image or video/.test(err.message || "")) {
     return res.status(400).json({ error: err.message });
+  }
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({ error: err.message });
   }
   console.error(err);
   res.status(500).json({ error: "Server error" });
