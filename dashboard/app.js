@@ -246,6 +246,13 @@ function renderMessages(messages) {
         '<div class="nv-msg-meta">' + escapeHtml(m.email) + " · " + date + "</div></div>" +
         '<span class="nv-badge ' + (m.read ? "nv-badge-read" : "nv-badge-unread") + '">' + (m.read ? "Read" : "New") + "</span>" +
         "</div>" +
+        (m.whatsapp || m.country
+          ? '<div style="font-size:12.5px;color:var(--text-dimmer);margin-bottom:6px;">' +
+            (m.whatsapp ? "📱 " + escapeHtml(m.whatsapp) : "") +
+            (m.whatsapp && m.country ? "  ·  " : "") +
+            (m.country ? "🌍 " + escapeHtml(m.country) : "") +
+            "</div>"
+          : "") +
         (m.subject ? '<div style="font-weight:700;font-size:13.5px;margin-bottom:6px;">' + escapeHtml(m.subject) + "</div>" : "") +
         '<div class="nv-msg-body">' + escapeHtml(m.message) + "</div>" +
         '<div class="nv-msg-actions">' +

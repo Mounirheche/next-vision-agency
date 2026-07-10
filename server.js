@@ -404,6 +404,8 @@ app.post("/api/contact", async (req, res) => {
   const body = req.body || {};
   const name = (body.name || "").trim();
   const email = (body.email || "").trim();
+  const whatsapp = (body.whatsapp || "").trim();
+  const country = (body.country || "").trim();
   const subject = (body.subject || "").trim();
   const message = (body.message || "").trim();
   if (!name || !email || !message) {
@@ -414,6 +416,8 @@ app.post("/api/contact", async (req, res) => {
     id: crypto.randomBytes(6).toString("hex"),
     name,
     email,
+    whatsapp,
+    country,
     subject,
     message,
     createdAt: new Date().toISOString(),
