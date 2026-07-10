@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard Login — Next Vision Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+  .nv-login-card { width: 100%; max-width: 380px; padding: 40px 36px; }
+  .nv-login-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .nv-login-sub { font-size: 13.5px; color: var(--text-dim); margin-bottom: 28px; }
+  .nv-login-error { font-size: 13px; color: var(--danger); margin-top: 14px; min-height: 18px; }
+</style>
+</head>
+<body>
+  <form id="login-form" class="nv-glass nv-login-card">
+    <div class="nv-login-title">Next Vision Agency</div>
+    <div class="nv-login-sub">Sign in to the dashboard</div>
+    <div class="nv-field">
+      <label class="nv-label" for="username">Username</label>
+      <input class="nv-input" id="username" name="username" type="text" autocomplete="username" required>
+    </div>
+    <div class="nv-field">
+      <label class="nv-label" for="password">Password</label>
+      <input class="nv-input" id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+    <button class="nv-btn" type="submit" style="width: 100%; justify-content: center;">Sign In</button>
+    <div class="nv-login-error" id="login-error"></div>
+  </form>
+
+  <script>
+    var form = document.getElementById('login-form');
+    var errorEl = document.getElementById('login-error');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      errorEl.textContent = '';
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: username, password: password }),
+      })
+        .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+        .then(function (result) {
+          if (result.ok) {
+            window.location.href = './index.html';
+          } else {
+            errorEl.textContent = (result.body && result.body.error) || 'Login failed.';
+          }
+        })
+        .catch(function () {
+          errorEl.textContent = 'Could not reach the server.';
+        });
+    });
+  </script>
+</body>
+</html>

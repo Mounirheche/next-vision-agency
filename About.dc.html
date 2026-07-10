@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #020919; font-family: 'Manrope', sans-serif; color: #FFFFFF; overflow-x: hidden; }
+* { box-sizing: border-box; }
+a { color: #00CFFF; text-decoration: none; }
+a:hover { color: #7FE4FF; }
+::selection { background: rgba(0,207,255,0.3); }
+@keyframes nvFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-16px); } }
+@keyframes nvPulse { 0%,100% { box-shadow: 0 0 24px rgba(0,207,255,0.45), 0 0 60px rgba(0,207,255,0.18); } 50% { box-shadow: 0 0 40px rgba(0,207,255,0.75), 0 0 90px rgba(0,207,255,0.3); } }
+@keyframes nvGrid { from { background-position: 0 0; } to { background-position: 64px 64px; } }
+@keyframes nvGlowDrift { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.55; } 50% { transform: translate(60px,-40px) scale(1.15); opacity: 0.8; } }
+@keyframes nvGlowDrift2 { 0%,100% { transform: translate(0,0) scale(1.1); opacity: 0.4; } 50% { transform: translate(-70px,50px) scale(0.95); opacity: 0.65; } }
+@keyframes nvShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes nvStreak { 0% { transform: translateX(-120%) skewX(-20deg); opacity: 0; } 15% { opacity: 0.8; } 85% { opacity: 0.8; } 100% { transform: translateX(240%) skewX(-20deg); opacity: 0; } }
+@keyframes nvRipple { from { transform: scale(0); opacity: 0.5; } to { transform: scale(3); opacity: 0; } }
+.nv-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+.nv-reveal.nv-in { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 980px) {
+  .nv-nav-links { display: none; }
+  .nv-nav-en { display: none; }
+  .nv-story-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .nv-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-timeline { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-cta-grid { grid-template-columns: 1fr !important; }
+  .nv-hero-title { font-size: 48px !important; }
+}
+@media (max-width: 640px) {
+  .nv-grid-3 { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nv-hero-title { font-size: 36px !important; }
+}
+</style>
+</helmet>
+
+<dc-import name="Background" particles="{{ true }}" grid="{{ true }}" hint-size="100%,100%"></dc-import>
+<dc-import name="Nav" active-page="about" hint-size="100%,84px"></dc-import>
+
+<header data-screen-label="About Hero" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 170px 32px 60px; text-align: center;">
+  <div class="nv-reveal" style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); backdrop-filter: blur(8px); margin-bottom: 28px;">
+    <span style="width: 6px; height: 6px; border-radius: 50%; background: #00CFFF; box-shadow: 0 0 10px #00CFFF;"></span>
+    <span data-i18n="about.hero.badge" style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">About Us</span>
+  </div>
+  <h1 class="nv-reveal nv-hero-title" data-i18n="about.hero.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; line-height: 1.12; font-weight: 700; margin: 0 auto 22px; letter-spacing: -0.02em; max-width: 760px;">The Team Behind Your Next <span style="background: linear-gradient(100deg, #00CFFF 20%, #3B82F6 50%, #00CFFF 80%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nvShimmer 5s linear infinite;">Big Launch</span></h1>
+  <p class="nv-reveal" data-i18n="about.hero.subtitle" style="font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto;">Next Vision Agency is a small, senior team obsessed with craft — building digital products that look as good as they perform.</p>
+</header>
+
+<section data-screen-label="Story" class="nv-story-grid" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
+  <div class="nv-reveal" style="position: relative;">
+    <div style="position: absolute; inset: -6%; border-radius: 24px; background: radial-gradient(circle, rgba(0,207,255,0.16) 0%, transparent 70%); filter: blur(20px);"></div>
+    <div style="position: relative; border-radius: 20px; overflow: hidden; border: 1px solid rgba(0,207,255,0.2); box-shadow: 0 30px 70px rgba(0,0,0,0.4); animation: nvFloat 8s ease-in-out infinite;">
+      <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="about-team-photo" shape="rect" src="assets/about-team-photo-default.webp" placeholder="Drop a team or studio photo" hint-size="100%,340px" style="width: 100%; height: 340px; display: block;"></x-import>
+    </div>
+  </div>
+  <div class="nv-reveal">
+    <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="about.story.badge" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Our Story</span></div>
+    <h2 data-i18n="about.story.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; line-height: 1.2; margin: 0 0 20px; letter-spacing: -0.015em;">Founded On A Simple Idea</h2>
+    <p data-i18n="about.story.paragraph1" style="font-size: 15.5px; line-height: 1.8; color: rgba(255,255,255,0.7); margin: 0 0 16px;">Next Vision Agency started three years ago with a conviction: great digital products come from small teams who care about every pixel and every line of code.</p>
+    <p data-i18n="about.story.paragraph2" style="font-size: 15.5px; line-height: 1.8; color: rgba(255,255,255,0.7); margin: 0;">Today we partner with founders and enterprises alike, treating every project — big or small — with the same obsession for craft, speed, and measurable results.</p>
+  </div>
+</section>
+
+<section data-screen-label="Values" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px;">
+  <div class="nv-reveal" style="text-align: center; margin-bottom: 48px;">
+    <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="about.values.badge" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">What Drives Us</span></div>
+    <h2 data-i18n="about.values.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; margin: 0; letter-spacing: -0.015em;">Our Core Values</h2>
+  </div>
+  <div class="nv-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 32px 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2 L14.5 8.5 L21 9.5 L16.2 13.9 L17.6 20.4 L12 17 L6.4 20.4 L7.8 13.9 L3 9.5 L9.5 8.5 Z" stroke="#00CFFF" stroke-width="1.5" stroke-linejoin="round"></path></svg></div>
+      <h3 data-i18n="about.values.card1.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; margin: 20px 0 10px;">Craft Over Shortcuts</h3>
+      <p data-i18n="about.values.card1.description" style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.65); margin: 0;">We sweat the details others skip — that's what separates good from unforgettable.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 32px 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#00CFFF" stroke-width="1.5"></circle><path d="M12 7 L12 12 L15.5 14" stroke="#00CFFF" stroke-width="1.5" stroke-linecap="round"></path></svg></div>
+      <h3 data-i18n="about.values.card2.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; margin: 20px 0 10px;">Speed With Purpose</h3>
+      <p data-i18n="about.values.card2.description" style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.65); margin: 0;">We move fast without breaking things — momentum backed by discipline.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 32px 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 54px; height: 54px; border-radius: 14px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 21 C7 17 4 13.5 4 9.5 C4 6.5 6.5 4 9.5 4 C10.9 4 12 4.7 12 4.7 C12 4.7 13.1 4 14.5 4 C17.5 4 20 6.5 20 9.5 C20 13.5 17 17 12 21 Z" stroke="#00CFFF" stroke-width="1.5" stroke-linejoin="round"></path></svg></div>
+      <h3 data-i18n="about.values.card3.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 19px; font-weight: 600; margin: 20px 0 10px;">Genuine Partnership</h3>
+      <p data-i18n="about.values.card3.description" style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.65); margin: 0;">Your goals become ours. We stay honest, transparent, and invested in your outcome.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Timeline" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px;">
+  <div class="nv-reveal" style="text-align: center; margin-bottom: 48px;">
+    <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="about.timeline.badge" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Milestones</span></div>
+    <h2 data-i18n="about.timeline.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; margin: 0; letter-spacing: -0.015em;">Our Journey So Far</h2>
+  </div>
+  <div class="nv-timeline" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative;">
+    <div style="position: absolute; top: 27px; left: 8%; right: 8%; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.35), rgba(0,207,255,0.35), transparent); z-index: 0;"></div>
+    <div class="nv-reveal" style="position: relative; text-align: center;">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: linear-gradient(135deg, #00CFFF, #3B82F6); display: grid; place-items: center; margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #021019; box-shadow: 0 0 24px rgba(0,207,255,0.4); position: relative; z-index: 1;">2023</div>
+      <h3 data-i18n="about.timeline.step1.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 0 0 8px;">Agency Founded</h3>
+      <p data-i18n="about.timeline.step1.description" style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); margin: 0;">Started with a two-person team and one client.</p>
+    </div>
+    <div class="nv-reveal" style="position: relative; text-align: center;">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,207,255,0.4); display: grid; place-items: center; margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #00CFFF; position: relative; z-index: 1;">2024</div>
+      <h3 data-i18n="about.timeline.step2.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 0 0 8px;">10+ Projects Delivered</h3>
+      <p data-i18n="about.timeline.step2.description" style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); margin: 0;">Grew the team and shipped across web and mobile.</p>
+    </div>
+    <div class="nv-reveal" style="position: relative; text-align: center;">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,207,255,0.4); display: grid; place-items: center; margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #00CFFF; position: relative; z-index: 1;">2025</div>
+      <h3 data-i18n="about.timeline.step3.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 0 0 8px;">International Clients</h3>
+      <p data-i18n="about.timeline.step3.description" style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); margin: 0;">Expanded to serve clients across three continents.</p>
+    </div>
+    <div class="nv-reveal" style="position: relative; text-align: center;">
+      <div style="width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,0.05); border: 1px solid rgba(0,207,255,0.4); display: grid; place-items: center; margin: 0 auto 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: #00CFFF; position: relative; z-index: 1;">2026</div>
+      <h3 data-i18n="about.timeline.step4.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 0 0 8px;">50+ Projects &amp; Growing</h3>
+      <p data-i18n="about.timeline.step4.description" style="font-size: 13px; line-height: 1.6; color: rgba(255,255,255,0.65); margin: 0;">A senior team, a proven process, and a lot more ahead.</p>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="CTA" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px;">
+  <div class="nv-reveal nv-cta-grid" style="position: relative; overflow: hidden; border-radius: 26px; border: 1px solid rgba(0,207,255,0.22); background: linear-gradient(120deg, rgba(6,20,45,0.9), rgba(2,9,25,0.95)); box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr; align-items: center; text-align: center;">
+    <div style="position: absolute; top: 0; left: -40%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.08), transparent); animation: nvStreak 5s ease-in-out infinite;"></div>
+    <div style="position: relative; padding: 64px 40px;">
+      <h2 data-i18n="about.cta.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; line-height: 1.25; margin: 0 0 30px; letter-spacing: -0.015em;">Ready to work with a team that <span style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.5);">cares?</span></h2>
+      <a href="Contact.dc.html" data-nv-magnetic="" data-nv-ripple="" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 34px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 16px; font-weight: 800; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span data-i18n="about.cta.button">Get In Touch</span><span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,400px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const reveals = Array.from(document.querySelectorAll('.nv-reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const siblings = reveals.filter(r => r.parentElement === e.target.parentElement && !r.classList.contains('nv-in'));
+          const i = Math.max(0, siblings.indexOf(e.target));
+          e.target.style.transitionDelay = (i * 90) + 'ms';
+          e.target.classList.add('nv-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => io.observe(el));
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', (ev) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ev.clientX - (r.left + r.width / 2);
+          const dy = ev.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          btn.style.transform = 'translate(0,0)';
+          setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-nv-ripple]').forEach(btn => {
+      btn.addEventListener('click', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        const size = Math.max(r.width, r.height);
+        s.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px;animation:nvRipple 0.7s ease-out forwards;';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
+    });
+
+    document.querySelectorAll('[data-nv-lift]').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px)';
+        card.style.borderColor = 'rgba(0,207,255,0.45)';
+        card.style.boxShadow = '0 24px 60px rgba(0,60,120,0.35), 0 0 0 1px rgba(0,207,255,0.12) inset';
+        const icon = card.querySelector('[data-nv-icon]');
+        if (icon) icon.style.transform = 'rotate(-8deg) scale(1.08)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+        const icon = card.querySelector('[data-nv-icon]');
+        if (icon) icon.style.transform = '';
+      });
+    });
+    document.querySelectorAll('[data-nv-glow]').forEach(card => {
+      const glow = document.createElement('span');
+      glow.style.cssText = 'position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,207,255,0.14) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity 0.4s;transform:translate(-50%,-50%);';
+      card.appendChild(glow);
+      card.addEventListener('mousemove', (ev) => {
+        const r = card.getBoundingClientRect();
+        glow.style.left = (ev.clientX - r.left) + 'px';
+        glow.style.top = (ev.clientY - r.top) + 'px';
+        glow.style.opacity = '1';
+      });
+      card.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    });
+  }
+}
+</script>
+</body>
+</html>

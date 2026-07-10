@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #020919; font-family: 'Manrope', sans-serif; color: #FFFFFF; overflow-x: hidden; }
+* { box-sizing: border-box; }
+a { color: #00CFFF; text-decoration: none; }
+a:hover { color: #7FE4FF; }
+::selection { background: rgba(0,207,255,0.3); }
+@keyframes nvFloat { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-16px); } }
+@keyframes nvFloatSm { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+@keyframes nvSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes nvSpinRev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+@keyframes nvPulse { 0%,100% { box-shadow: 0 0 24px rgba(0,207,255,0.45), 0 0 60px rgba(0,207,255,0.18); } 50% { box-shadow: 0 0 40px rgba(0,207,255,0.75), 0 0 90px rgba(0,207,255,0.3); } }
+@keyframes nvGrid { from { background-position: 0 0; } to { background-position: 64px 64px; } }
+@keyframes nvGlowDrift { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.55; } 50% { transform: translate(60px,-40px) scale(1.15); opacity: 0.8; } }
+@keyframes nvGlowDrift2 { 0%,100% { transform: translate(0,0) scale(1.1); opacity: 0.4; } 50% { transform: translate(-70px,50px) scale(0.95); opacity: 0.65; } }
+@keyframes nvShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes nvScrollDot { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(16px); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
+@keyframes nvStreak { 0% { transform: translateX(-120%) skewX(-20deg); opacity: 0; } 15% { opacity: 0.8; } 85% { opacity: 0.8; } 100% { transform: translateX(240%) skewX(-20deg); opacity: 0; } }
+@keyframes nvStarShine { 0%,100% { opacity: 0.85; text-shadow: 0 0 4px rgba(255,194,75,0.4); } 50% { opacity: 1; text-shadow: 0 0 12px rgba(255,194,75,0.9); } }
+@keyframes nvRipple { from { transform: scale(0); opacity: 0.5; } to { transform: scale(3); opacity: 0; } }
+@keyframes nvDash { to { stroke-dashoffset: -200; } }
+.nv-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+.nv-reveal.nv-in { opacity: 1; transform: translateY(0); }
+
+/* Responsive: tablet */
+@media (max-width: 980px) {
+  .nv-nav-links { display: none; }
+  .nv-nav-en { display: none; }
+  .nv-hero-grid { grid-template-columns: minmax(0, 1fr) !important; padding-top: 140px !important; }
+  .nv-hero-grid > div:nth-child(2) { max-width: 420px; margin: 0 auto; }
+  .nv-about-grid { grid-template-columns: 1fr !important; }
+  .nv-cta-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .nv-cta-grid img { display: none; }
+  .nv-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-testi-card { flex: 0 0 50% !important; }
+}
+
+/* Responsive: mobile */
+@media (max-width: 640px) {
+  .nv-grid-3 { grid-template-columns: 1fr !important; }
+  .nv-grid-4 { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nv-testi-card { flex: 0 0 100% !important; }
+  .nv-hero-grid h1 { font-size: 44px !important; }
+  .nv-hero-grid { padding-left: 20px !important; padding-right: 20px !important; }
+}
+</style>
+</helmet>
+
+<dc-import name="Background" particles="{{ showParticles }}" grid="{{ showGrid }}" hint-size="100%,100%"></dc-import>
+<dc-import name="Nav" active-page="home" hint-size="100%,84px"></dc-import>
+
+<header id="top" data-screen-label="Hero" class="nv-hero-grid" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 170px 32px 60px; display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center;">
+  <div>
+    <div class="nv-reveal" style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); backdrop-filter: blur(8px); margin-bottom: 32px;">
+      <span style="width: 6px; height: 6px; border-radius: 50%; background: #00CFFF; box-shadow: 0 0 10px #00CFFF; animation: nvStarShine 2s ease-in-out infinite;"></span>
+      <span data-i18n="home.hero.eyebrow" style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Digital Innovation. Real Impact.</span>
+    </div>
+    <h1 class="nv-reveal" style="font-family: 'Space Grotesk', sans-serif; font-size: 68px; line-height: 1.08; font-weight: 700; margin: 0 0 26px; letter-spacing: -0.02em; text-wrap: balance;">
+      <span data-i18n="home.hero.title1" style="display: block;">We Build Digital</span>
+      <span data-i18n="home.hero.title2" style="display: block;">Experiences That</span>
+      <span data-i18n="home.hero.title3" style="display: block; background: linear-gradient(100deg, #00CFFF 20%, #3B82F6 50%, #00CFFF 80%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nvShimmer 5s linear infinite;">Drive Growth</span>
+    </h1>
+    <p class="nv-reveal" data-i18n="home.hero.subtitle" style="font-size: 18px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 460px; margin: 0 0 40px;">A full-service digital agency crafting websites, mobile apps, and brand identities that connect, engage, and convert.</p>
+    <div class="nv-reveal" style="display: flex; align-items: center; gap: 18px; flex-wrap: wrap;">
+      <a href="Contact.dc.html" data-nv-magnetic="" data-nv-ripple="" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 16px; font-weight: 800; letter-spacing: 0.01em; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite; transition: transform 0.3s;" style-hover="color: #021019;"><span data-i18n="home.hero.ctaPrimary">Start Your Project</span><span>→</span></a>
+      <a href="Portfolio.dc.html" data-nv-magnetic="" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); color: #FFFFFF; font-size: 16px; font-weight: 700; white-space: nowrap; transition: border-color 0.35s, box-shadow 0.35s, background 0.35s;" style-hover="border-color: rgba(0,207,255,0.6); box-shadow: 0 0 24px rgba(0,207,255,0.25); background: rgba(0,207,255,0.06); color: #FFFFFF;"><span data-i18n="home.hero.ctaSecondary">View Our Work</span><span style="color: #00CFFF;">◉</span></a>
+    </div>
+  </div>
+  <div data-nv-parallax="" style="position: relative; will-change: transform; overflow: hidden; border-radius: 50%;">
+    <div style="position: absolute; inset: -8%; border: 1px dashed rgba(0,207,255,0.18); border-radius: 50%; animation: nvSpin 40s linear infinite;"></div>
+    <div style="position: absolute; inset: 2%; border: 1px solid rgba(59,130,246,0.14); border-radius: 50%; animation: nvSpinRev 55s linear infinite;"></div>
+    <div style="position: absolute; inset: 18%; border-radius: 50%; background: radial-gradient(circle, rgba(0,207,255,0.22) 0%, transparent 70%); filter: blur(20px); animation: nvGlowDrift 8s ease-in-out infinite;"></div>
+    <img src="assets/hero-visual-hq-cutout.png" alt="Next Vision emblem" style="position: relative; width: 100%; display: block; animation: nvFloat 7s ease-in-out infinite; filter: drop-shadow(0 30px 60px rgba(0,120,200,0.35));">
+  </div>
+  <div style="grid-column: 1 / -1; display: flex; justify-content: center; padding-top: 28px;">
+    <div style="width: 26px; height: 42px; border: 2px solid rgba(255,255,255,0.25); border-radius: 999px; display: flex; justify-content: center; padding-top: 8px;">
+      <span style="width: 4px; height: 8px; border-radius: 999px; background: #00CFFF; box-shadow: 0 0 8px #00CFFF; animation: nvScrollDot 1.8s ease-in-out infinite;"></span>
+    </div>
+  </div>
+</header>
+
+<section data-screen-label="Statistics" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 90px;">
+  <div class="nv-reveal" style="display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);">
+    <div data-nv-glow="" style="position: relative; overflow: hidden; text-align: center; padding: 38px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);"><span data-nv-count="50">0</span><span>+</span></div>
+      <div data-i18n="home.stats.projects" style="margin-top: 8px; font-size: 14px; color: rgba(255,255,255,0.7); letter-spacing: 0.04em;">Projects Delivered</div>
+    </div>
+    <div data-nv-glow="" style="position: relative; overflow: hidden; text-align: center; padding: 38px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);"><span data-nv-count="30">0</span><span>+</span></div>
+      <div data-i18n="home.stats.clients" style="margin-top: 8px; font-size: 14px; color: rgba(255,255,255,0.7); letter-spacing: 0.04em;">Happy Clients</div>
+    </div>
+    <div data-nv-glow="" style="position: relative; overflow: hidden; text-align: center; padding: 38px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);"><span data-nv-count="3">0</span><span>+</span></div>
+      <div data-i18n="home.stats.years" style="margin-top: 8px; font-size: 14px; color: rgba(255,255,255,0.7); letter-spacing: 0.04em;">Years of Experience</div>
+    </div>
+    <div data-nv-glow="" style="position: relative; overflow: hidden; text-align: center; padding: 38px 20px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);"><span data-nv-count="100">0</span><span>%</span></div>
+      <div data-i18n="home.stats.satisfaction" style="margin-top: 8px; font-size: 14px; color: rgba(255,255,255,0.7); letter-spacing: 0.04em;">Client Satisfaction</div>
+    </div>
+  </div>
+</section>
+
+<section id="services" data-screen-label="Services" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px">
+  <div class="nv-reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; margin-bottom: 56px;">
+    <div>
+      <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="home.services.eyebrow" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">What We Do</span></div>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.15; margin: 0; letter-spacing: -0.015em;"><span data-i18n="home.services.title1" style="display: block;">Digital Solutions Tailored</span><span style="display: block;"><span data-i18n="home.services.title2To">To</span> <span data-i18n="home.services.title2Goals" style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.45);">Your Goals</span></span></h2>
+    </div>
+    <p data-i18n="home.services.subtitle" style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0; max-width: 380px; justify-self: end;">We combine creativity, technology, and strategy to deliver solutions that empower your brand.</p>
+  </div>
+  <div class="nv-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 36px 32px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); box-shadow: 0 0 24px rgba(0,207,255,0.15); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="3" y="5" width="22" height="18" rx="3" stroke="#00CFFF" stroke-width="1.6"></rect><line x1="3" y1="10" x2="25" y2="10" stroke="#00CFFF" stroke-width="1.6"></line><circle cx="6.5" cy="7.5" r="1" fill="#00CFFF"></circle><circle cx="10" cy="7.5" r="1" fill="#00CFFF"></circle></svg>
+      </div>
+      <h3 data-i18n="home.svc.web.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin: 26px 0 12px;">Web Design</h3>
+      <p data-i18n="home.svc.web.desc" style="font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0 0 26px;">Beautiful, responsive websites that reflect your brand and drive results.</p>
+      <a href="Services.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #00CFFF;" style-hover="gap: 12px; color: #7FE4FF;"><span data-i18n="home.svc.exploreMore">Explore More</span><span>→</span></a>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 36px 32px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); box-shadow: 0 0 24px rgba(0,207,255,0.15); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="8" y="2" width="12" height="24" rx="3" stroke="#00CFFF" stroke-width="1.6"></rect><line x1="12" y1="22" x2="16" y2="22" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round"></line></svg>
+      </div>
+      <h3 data-i18n="home.svc.mobile.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin: 26px 0 12px;">Mobile Apps</h3>
+      <p data-i18n="home.svc.mobile.desc" style="font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0 0 26px;">High-performance mobile apps built for iOS and Android that users love.</p>
+      <a href="Services.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #00CFFF;" style-hover="gap: 12px; color: #7FE4FF;"><span data-i18n="home.svc.exploreMore">Explore More</span><span>→</span></a>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 36px 32px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 62px; height: 62px; border-radius: 16px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); box-shadow: 0 0 24px rgba(0,207,255,0.15); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="5" y="5" width="18" height="18" rx="9" stroke="#00CFFF" stroke-width="1.6"></rect><circle cx="14" cy="14" r="4" stroke="#00CFFF" stroke-width="1.6"></circle></svg>
+      </div>
+      <h3 data-i18n="home.svc.brand.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 600; margin: 26px 0 12px;">Brand Identity</h3>
+      <p data-i18n="home.svc.brand.desc" style="font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0 0 26px;">Strong visual identities that make your brand memorable and trustworthy.</p>
+      <a href="Services.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #00CFFF;" style-hover="gap: 12px; color: #7FE4FF;"><span data-i18n="home.svc.exploreMore">Explore More</span><span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" data-screen-label="Portfolio" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px;">
+  <div class="nv-reveal" style="display: flex; align-items: end; justify-content: space-between; margin-bottom: 48px;">
+    <div>
+      <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="home.portfolio.eyebrow" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Our Work</span></div>
+      <h2 data-i18n="home.portfolio.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; margin: 0; letter-spacing: -0.015em;">Selected Projects</h2>
+    </div>
+    <a href="Portfolio.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: #00CFFF;" style-hover="gap: 12px; color: #7FE4FF;"><span data-i18n="home.portfolio.viewAll">View All Projects</span><span>→</span></a>
+  </div>
+  <div class="nv-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;">
+    <a href="Project.dc.html?id=ecommerce" class="nv-reveal" data-nv-tilt="" style="display: block; color: inherit; text-decoration: none; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s; will-change: transform;" style-hover="border-color: rgba(0,207,255,0.45); box-shadow: 0 24px 50px rgba(0,80,140,0.3);">
+      <div style="position: relative; overflow: hidden; aspect-ratio: 4/3;">
+        <img src="assets/proj-1.png" alt="E-Commerce Platform dashboard" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,9,25,0.75), transparent 55%); opacity: 0.7; transition: opacity 0.5s;"></div>
+      </div>
+      <div style="padding: 20px 22px 24px;">
+        <h3 data-i18n="home.proj1.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 8px;">E-Commerce Platform</h3>
+        <span data-i18n="home.proj1.category" style="font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Web Development</span>
+      </div>
+    </a>
+    <a href="Project.dc.html?id=fooddelivery" class="nv-reveal" data-nv-tilt="" style="display: block; color: inherit; text-decoration: none; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s; will-change: transform;" style-hover="border-color: rgba(0,207,255,0.45); box-shadow: 0 24px 50px rgba(0,80,140,0.3);">
+      <div style="position: relative; overflow: hidden; aspect-ratio: 4/3;">
+        <img src="assets/proj-2.png" alt="Food Delivery App" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,9,25,0.75), transparent 55%); opacity: 0.7; transition: opacity 0.5s;"></div>
+      </div>
+      <div style="padding: 20px 22px 24px;">
+        <h3 data-i18n="home.proj2.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 8px;">Food Delivery App</h3>
+        <span data-i18n="home.proj2.category" style="font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Mobile Application</span>
+      </div>
+    </a>
+    <a href="Project.dc.html?id=techstartup" class="nv-reveal" data-nv-tilt="" style="display: block; color: inherit; text-decoration: none; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s; will-change: transform;" style-hover="border-color: rgba(0,207,255,0.45); box-shadow: 0 24px 50px rgba(0,80,140,0.3);">
+      <div style="position: relative; overflow: hidden; aspect-ratio: 4/3;">
+        <img src="assets/proj-3.png" alt="Tech Startup Identity" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,9,25,0.75), transparent 55%); opacity: 0.7; transition: opacity 0.5s;"></div>
+      </div>
+      <div style="padding: 20px 22px 24px;">
+        <h3 data-i18n="home.proj3.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 8px;">Tech Startup Identity</h3>
+        <span data-i18n="home.proj3.category" style="font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Branding</span>
+      </div>
+    </a>
+    <a href="Project.dc.html?id=realestate" class="nv-reveal" data-nv-tilt="" style="display: block; color: inherit; text-decoration: none; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s; will-change: transform;" style-hover="border-color: rgba(0,207,255,0.45); box-shadow: 0 24px 50px rgba(0,80,140,0.3);">
+      <div style="position: relative; overflow: hidden; aspect-ratio: 4/3;">
+        <img src="assets/proj-4.png" alt="Real Estate Portal" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,9,25,0.75), transparent 55%); opacity: 0.7; transition: opacity 0.5s;"></div>
+      </div>
+      <div style="padding: 20px 22px 24px;">
+        <h3 data-i18n="home.proj4.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 8px;">Real Estate Portal</h3>
+        <span data-i18n="home.proj4.category" style="font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Web Development</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section id="testimonials" data-screen-label="Testimonials" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px;">
+  <div class="nv-reveal" style="display: flex; align-items: end; justify-content: space-between; margin-bottom: 48px;">
+    <div>
+      <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="home.testi.eyebrow" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Testimonials</span></div>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; margin: 0; letter-spacing: -0.015em;"><span data-i18n="home.testi.titlePlain">What Our </span><span data-i18n="home.testi.titleHighlight" style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.45);">Clients Say</span></h2>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <button onClick="{{ tPrev }}" style="width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 18px; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s;" style-hover="border-color: rgba(0,207,255,0.6); box-shadow: 0 0 18px rgba(0,207,255,0.3);">←</button>
+      <button onClick="{{ tNext }}" style="width: 46px; height: 46px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 18px; cursor: pointer; transition: border-color 0.3s, box-shadow 0.3s;" style-hover="border-color: rgba(0,207,255,0.6); box-shadow: 0 0 18px rgba(0,207,255,0.3);">→</button>
+    </div>
+  </div>
+  <div style="overflow: hidden; margin: 0 -8px;">
+    <div data-nv-track="" id="nv-testimonials-track" style="display: flex; transition: transform 0.8s cubic-bezier(0.22,1,0.36,1); will-change: transform;"></div>
+  </div>
+</section>
+
+<section id="about" data-screen-label="Why Next Vision" class="nv-about-grid" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px; display: grid; grid-template-columns: 0.9fr 1.4fr; gap: 60px; align-items: center;">
+  <div class="nv-reveal">
+    <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 22px;"><span data-i18n="home.why.eyebrow" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Why Next Vision</span></div>
+    <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 700; line-height: 1.15; margin: 0 0 20px; letter-spacing: -0.015em;"><span data-i18n="home.why.title1" style="display: block;">Built Different.</span><span data-i18n="home.why.title2" style="display: block; color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.45);">Built For You.</span></h2>
+    <p data-i18n="home.why.subtitle" style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0 0 30px; max-width: 340px;">We follow a proven process to turn ideas into powerful digital products.</p>
+    <a href="About.dc.html" style="display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: #00CFFF;" style-hover="gap: 12px; color: #7FE4FF;"><span data-i18n="home.why.learnMore">Learn More</span><span>→</span></a>
+  </div>
+  <div class="nv-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#00CFFF" stroke-width="1.6"></circle><line x1="11" y1="7" x2="11" y2="11" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round"></line><line x1="11" y1="11" x2="14" y2="13" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round"></line></svg></div>
+      <h3 data-i18n="home.why1.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">Fast Delivery</h3>
+      <p data-i18n="home.why1.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">We value your time and deliver on schedule.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="4" width="14" height="14" rx="7" stroke="#00CFFF" stroke-width="1.6"></rect><circle cx="11" cy="11" r="2.5" fill="#00CFFF"></circle></svg></div>
+      <h3 data-i18n="home.why2.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">Premium Quality</h3>
+      <p data-i18n="home.why2.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">Crafted with precision and attention to detail.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="8" stroke="#00CFFF" stroke-width="1.6"></circle><path d="M11 3 L11 19 M3 11 L19 11" stroke="#00CFFF" stroke-width="1.2" opacity="0.6"></path></svg></div>
+      <h3 data-i18n="home.why3.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">24/7 Support</h3>
+      <p data-i18n="home.why3.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">We're always here to support you.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="4" y="4" width="6" height="6" rx="2" stroke="#00CFFF" stroke-width="1.6"></rect><rect x="12" y="12" width="6" height="6" rx="2" stroke="#00CFFF" stroke-width="1.6"></rect><rect x="12" y="4" width="6" height="6" rx="3" stroke="#00CFFF" stroke-width="1.6"></rect><rect x="4" y="12" width="6" height="6" rx="3" stroke="#00CFFF" stroke-width="1.6"></rect></svg></div>
+      <h3 data-i18n="home.why4.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">Modern Tech</h3>
+      <p data-i18n="home.why4.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">We use the latest technologies for scalable solutions.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="10" cy="10" r="6" stroke="#00CFFF" stroke-width="1.6"></circle><line x1="14.5" y1="14.5" x2="19" y2="19" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round"></line></svg></div>
+      <h3 data-i18n="home.why5.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">SEO Optimized</h3>
+      <p data-i18n="home.why5.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">Built with best practices to rank higher.</p>
+    </div>
+    <div class="nv-reveal" data-nv-glow="" data-nv-lift="" style="position: relative; overflow: hidden; padding: 26px 22px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+      <div data-nv-icon="" style="width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.07); transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="8" cy="8" r="3.5" stroke="#00CFFF" stroke-width="1.6"></circle><circle cx="14" cy="14" r="3.5" stroke="#00CFFF" stroke-width="1.6"></circle></svg></div>
+      <h3 data-i18n="home.why6.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 600; margin: 18px 0 8px;">Fully Custom</h3>
+      <p data-i18n="home.why6.desc" style="font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.65); margin: 0;">No templates. Every solution is uniquely built.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="CTA" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px;">
+  <div class="nv-reveal nv-cta-grid" style="position: relative; overflow: hidden; border-radius: 26px; border: 1px solid rgba(0,207,255,0.22); background: linear-gradient(120deg, rgba(6,20,45,0.9), rgba(2,9,25,0.95)); box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: grid; grid-template-columns: 1.2fr 1fr; align-items: center;">
+    <img src="assets/cta-wave.png" alt="" style="position: absolute; right: 0; top: 0; height: 100%; width: 52%; object-fit: cover; object-position: left; opacity: 0.9; mask-image: linear-gradient(to right, transparent, black 35%);">
+    <div style="position: absolute; top: 0; left: -40%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.08), transparent); animation: nvStreak 5s ease-in-out infinite;"></div>
+    <div style="position: relative; padding: 64px 24px 64px 56px;">
+      <div style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.08); margin-bottom: 24px;"><span data-i18n="home.cta.eyebrow" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Let's Work Together</span></div>
+      <h2 style="font-family: 'Space Grotesk', sans-serif; font-size: 42px; font-weight: 700; line-height: 1.2; margin: 0 0 32px; letter-spacing: -0.015em;"><span data-i18n="home.cta.title1" style="display: block;">Have a project in mind?</span><span style="display: block;"><span data-i18n="home.cta.title2">Let's build something</span> <span data-i18n="home.cta.title2Highlight" style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.5);">amazing.</span></span></h2>
+      <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+        <a href="Contact.dc.html" data-nv-magnetic="" data-nv-ripple="" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 15px; font-weight: 800; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span data-i18n="home.cta.scheduleCall">Schedule a Call</span><span>→</span></a>
+        <a href="#contact" data-nv-magnetic="" data-nv-contact="whatsapp" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); backdrop-filter: blur(8px); color: #FFFFFF; font-size: 15px; font-weight: 700; white-space: nowrap; transition: border-color 0.35s, box-shadow 0.35s;" style-hover="border-color: rgba(0,207,255,0.6); box-shadow: 0 0 22px rgba(0,207,255,0.25); color: #FFFFFF;"><span style="color: #2BD466;">◈</span><span data-i18n="home.cta.whatsapp">Chat on WhatsApp</span></a>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</section>
+
+<footer data-screen-label="Footer" style="position: relative; z-index: 1; background: rgba(2,9,25,0.6);">
+  <div style="height: 1px; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.5), transparent);"></div>
+  <div class="nv-reveal nv-footer-grid" style="max-width: 1240px; margin: 0 auto; padding: 64px 32px 32px; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 48px;">
+    
+    <div>
+      <h4 data-i18n="footer.quickLinks" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 20px; letter-spacing: 0.04em;">Quick Links</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="Next Vision Agency.dc.html#top" data-i18n="footer.linkHome" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Home</a>
+        <a href="Services.dc.html" data-i18n="footer.linkServices" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Services</a>
+        <a href="Portfolio.dc.html" data-i18n="footer.linkPortfolio" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Portfolio</a>
+        <a href="About.dc.html" data-i18n="footer.linkAbout" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">About</a>
+        <a href="Contact.dc.html" data-i18n="footer.linkContact" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Contact</a>
+      </div>
+    </div>
+    <div>
+      <h4 data-i18n="footer.servicesTitle" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 20px; letter-spacing: 0.04em;">Services</h4>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <a href="Services.dc.html" data-i18n="footer.svcWeb" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Web Design</a>
+        <a href="Services.dc.html" data-i18n="footer.svcMobile" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Mobile Apps</a>
+        <a href="Services.dc.html" data-i18n="footer.svcBrand" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Brand Identity</a>
+        <a href="Services.dc.html" data-i18n="footer.svcSeo" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">SEO &amp; Marketing</a>
+        <a href="Services.dc.html" data-i18n="footer.svcSupport" style="font-size: 14px; color: rgba(255,255,255,0.65);" style-hover="color: #00CFFF;">Support</a>
+      </div>
+    </div>
+    <div>
+      <h4 data-i18n="footer.contactTitle" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 20px; letter-spacing: 0.04em;">Contact</h4>
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <a href="mailto:hello@nextvision.agency" data-nv-contact="email" style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.7); text-decoration: none;"><span style="color: #00CFFF;">✉</span><span data-nv-field="email">hello@nextvision.agency</span></a>
+        <a href="tel:+213XXXXXXXXX" data-nv-contact="phone" style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.7); text-decoration: none;"><span style="color: #00CFFF;">✆</span><span data-nv-field="phone">+213 XXX XXX XXX</span></a>
+        <span style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.7);"><span style="color: #00CFFF;">◎</span><span data-i18n="footer.location">Algiers, Algeria</span></span>
+      </div>
+    </div><div>
+      
+      <img src="./logo-png-mr9v2yxh.png" alt="Next Vision Agency" style="height: 122px; display: block; margin-bottom: 18px; filter: drop-shadow(0 0 12px rgba(0,207,255,0.3)); object-fit: fill; width: 166px">
+      <div style="display: flex; gap: 12px;">
+        <a href="#top" data-nv-contact="facebook" target="_blank" rel="noopener" style="width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 800; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;" style-hover="transform: translateY(-4px); border-color: rgba(0,207,255,0.6); box-shadow: 0 8px 20px rgba(0,207,255,0.25); color: #00CFFF;">f</a>
+        <a href="#top" data-nv-contact="twitter" target="_blank" rel="noopener" style="width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.8); font-size: 14px; font-weight: 800; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;" style-hover="transform: translateY(-4px); border-color: rgba(0,207,255,0.6); box-shadow: 0 8px 20px rgba(0,207,255,0.25); color: #00CFFF;">𝕏</a>
+        <a href="#top" data-nv-contact="linkedin" target="_blank" rel="noopener" style="width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 800; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;" style-hover="transform: translateY(-4px); border-color: rgba(0,207,255,0.6); box-shadow: 0 8px 20px rgba(0,207,255,0.25); color: #00CFFF;">in</a>
+        <a href="#top" data-nv-contact="instagram" target="_blank" rel="noopener" style="width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.8); font-size: 12px; font-weight: 800; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s, color 0.3s;" style-hover="transform: translateY(-4px); border-color: rgba(0,207,255,0.6); box-shadow: 0 8px 20px rgba(0,207,255,0.25); color: #00CFFF;">ig</a>
+      </div>
+    </div>
+  </div>
+  <div style="max-width: 1240px; margin: 0 auto; padding: 24px 32px 32px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center;">
+    <span data-i18n="footer.copyright" style="font-size: 13px; color: rgba(255,255,255,0.5);">© 2026 Next Vision Agency. All rights reserved.</span>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;particles&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Ambience&quot;},
+  &quot;grid&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Ambience&quot;},
+  &quot;autoSlide&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Testimonials&quot;}
+}">
+function escapeHtmlHome(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showParticles: this.props.particles ?? true,
+      showGrid: this.props.grid ?? true,
+      tPrev: () => this.slide(-1),
+      tNext: () => this.slide(1),
+    };
+  }
+
+  slide(dir) {
+    const count = this.testimonialCount || 1;
+    this.tIndex = ((this.tIndex ?? 0) + dir + count) % count;
+    const track = document.querySelector('[data-nv-track]');
+    // Percentage transforms resolve against the track's OWN width, which only equals the
+    // container's width when the card count happens to fill it exactly (the original hardcoded
+    // 4-card case). With a variable testimonial count, measure the real card width in pixels instead.
+    if (track && track.children.length) {
+      const cardWidth = track.children[0].getBoundingClientRect().width;
+      track.style.transform = 'translateX(-' + (this.tIndex * cardWidth) + 'px)';
+    }
+    this.lastInteract = Date.now();
+  }
+
+  renderTestimonialCard(item, i) {
+    const nameKey = '__testi_' + item.id + '_name';
+    const roleKey = '__testi_' + item.id + '_role';
+    const quoteKey = '__testi_' + item.id + '_quote';
+    window.NV_AR_DICT = window.NV_AR_DICT || {};
+    window.NV_AR_DICT[nameKey] = item.name.ar;
+    window.NV_AR_DICT[roleKey] = item.role.ar;
+    window.NV_AR_DICT[quoteKey] = item.quote.ar;
+
+    const rating = Math.max(0, Math.min(5, item.rating || 5));
+    const stars = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+    const gradient = i % 2 === 0 ? 'linear-gradient(135deg, #00CFFF, #3B82F6)' : 'linear-gradient(135deg, #3B82F6, #00CFFF)';
+    const avatar = item.photo
+      ? `<img src="${escapeHtmlHome(item.photo)}" alt="" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; display: block; transition: transform 0.3s;" style-hover="transform: scale(1.12);">`
+      : `<span style="width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: ${gradient}; font-weight: 800; font-size: 15px; color: #021019; transition: transform 0.3s;" style-hover="transform: scale(1.12);">${escapeHtmlHome((item.name.en || '?').charAt(0).toUpperCase())}</span>`;
+
+    return `<div class="nv-testi-card" style="flex: 0 0 25%; padding: 8px;">
+      <div data-nv-lift="" style="height: 100%; padding: 30px 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); backdrop-filter: blur(14px); animation: nvFloatSm ${6 + (i % 3) * 0.5}s ease-in-out infinite; transition: transform 0.45s, border-color 0.45s, box-shadow 0.45s;">
+        <div style="font-size: 15px; letter-spacing: 3px; color: #FFC24B; animation: nvStarShine ${2.6 + (i % 3) * 0.3}s ease-in-out infinite;">${stars}</div>
+        <p data-i18n="${quoteKey}" style="font-size: 14.5px; line-height: 1.75; color: rgba(255,255,255,0.85); margin: 18px 0 24px;">"${escapeHtmlHome(item.quote.en)}"</p>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          ${avatar}
+          <span style="display: flex; flex-direction: column; gap: 2px;"><span data-i18n="${nameKey}" style="font-size: 14px; font-weight: 700;">${escapeHtmlHome(item.name.en)}</span><span data-i18n="${roleKey}" style="font-size: 12px; color: rgba(255,255,255,0.6);">${escapeHtmlHome(item.role.en)}</span></span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  async loadTestimonials() {
+    const FALLBACK = [
+      { id: 'testi1', name: { en: 'Ahmed K.', ar: 'أحمد ك.' }, role: { en: 'CEO, LoftReal Homes', ar: 'الرئيس التنفيذي، LoftReal Homes' }, quote: { en: 'Next Vision transformed our online presence completely. The website they built is fast, beautiful, and converts visitors into clients.', ar: 'غيّرت Next Vision حضورنا الرقمي بالكامل. الموقع الذي بنوه سريع وجميل ويحوّل الزوار إلى عملاء.' }, rating: 5, photo: null },
+      { id: 'testi2', name: { en: 'Sara M.', ar: 'سارة م.' }, role: { en: 'Founder, DineBox', ar: 'المؤسسة، DineBox' }, quote: { en: 'The mobile app they developed for us exceeded all expectations. Professional team, on-time delivery, and great communication.', ar: 'تطبيق الجوال الذي طوروه لنا فاق كل التوقعات. فريق محترف، تسليم في الوقت المحدد، وتواصل ممتاز.' }, rating: 5, photo: null },
+      { id: 'testi3', name: { en: 'Karim O.', ar: 'كريم و.' }, role: { en: 'Marketing Director, Al-Aqsa Corp', ar: 'مدير التسويق، Al-Aqsa Corp' }, quote: { en: 'Our brand identity was completely reimagined by Next Vision. The logo, colors, and assets truly capture who we are.', ar: 'أعادت Next Vision تصور هويتنا التجارية بالكامل. الشعار والألوان والعناصر تعبّر حقًا عن هويتنا.' }, rating: 5, photo: null },
+      { id: 'testi4', name: { en: 'Lina H.', ar: 'لينا ح.' }, role: { en: 'E-commerce Owner', ar: 'صاحبة متجر إلكتروني' }, quote: { en: 'I was skeptical at first, but Next Vision delivered beyond what I imagined. Highly recommend their services.', ar: 'كنت متشككًا في البداية، لكن Next Vision قدّمت أكثر مما تخيلت. أنصح بشدة بخدماتهم.' }, rating: 5, photo: null },
+    ];
+    let items = FALLBACK;
+    try {
+      const res = await fetch('/api/testimonials');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) items = data;
+      }
+    } catch (e) {}
+
+    const track = document.getElementById('nv-testimonials-track');
+    if (!track) return;
+    this.testimonialCount = items.length;
+    track.innerHTML = items.map((item, i) => this.renderTestimonialCard(item, i)).join('');
+    track.querySelectorAll('[data-nv-lift]').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px)';
+        card.style.borderColor = 'rgba(0,207,255,0.45)';
+        card.style.boxShadow = '0 24px 60px rgba(0,60,120,0.35), 0 0 0 1px rgba(0,207,255,0.12) inset';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+      });
+    });
+    if (window.NVI18N && window.NVI18N.applyAll) window.NVI18N.applyAll();
+  }
+
+  componentDidMount() {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    this.loadTestimonials();
+
+    // --- Scroll reveal with stagger ---
+    const reveals = Array.from(document.querySelectorAll('.nv-reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const siblings = reveals.filter(r => r.parentElement === e.target.parentElement && !r.classList.contains('nv-in'));
+          const i = Math.max(0, siblings.indexOf(e.target));
+          e.target.style.transitionDelay = (i * 90) + 'ms';
+          e.target.classList.add('nv-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => io.observe(el));
+
+    // --- Animated counters ---
+    const counters = document.querySelectorAll('[data-nv-count]');
+    const cio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        const target = parseInt(e.target.getAttribute('data-nv-count'), 10);
+        const t0 = performance.now();
+        const dur = 1800;
+        const tick = (t) => {
+          const p = Math.min(1, (t - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          e.target.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => cio.observe(el));
+
+    // --- Hero mouse parallax ---
+    const hero = document.querySelector('[data-nv-parallax]');
+    if (hero && !prefersReduced) {
+      window.addEventListener('mousemove', (ev) => {
+        const dx = (ev.clientX / window.innerWidth - 0.5);
+        const dy = (ev.clientY / window.innerHeight - 0.5);
+        hero.style.transform = 'translate(' + (dx * 18) + 'px,' + (dy * 12) + 'px)';
+      }, { passive: true });
+    }
+
+    // --- Magnetic buttons ---
+    if (!prefersReduced) document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+      btn.addEventListener('mousemove', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const dx = ev.clientX - (r.left + r.width / 2);
+        const dy = ev.clientY - (r.top + r.height / 2);
+        btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+        btn.style.transform = 'translate(0,0)';
+        setTimeout(() => { btn.style.transition = ''; }, 500);
+      });
+    });
+
+    // --- Ripple on CTA buttons ---
+    document.querySelectorAll('[data-nv-ripple]').forEach(btn => {
+      btn.addEventListener('click', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        const size = Math.max(r.width, r.height);
+        s.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px;animation:nvRipple 0.7s ease-out forwards;';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
+    });
+
+    // --- Card lift + glow-follows-mouse ---
+    document.querySelectorAll('[data-nv-lift]').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-8px)';
+        card.style.borderColor = 'rgba(0,207,255,0.45)';
+        card.style.boxShadow = '0 24px 60px rgba(0,60,120,0.35), 0 0 0 1px rgba(0,207,255,0.12) inset';
+        const icon = card.querySelector('[data-nv-icon]');
+        if (icon) icon.style.transform = 'rotate(-8deg) scale(1.08)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+        const icon = card.querySelector('[data-nv-icon]');
+        if (icon) icon.style.transform = '';
+      });
+    });
+    document.querySelectorAll('[data-nv-glow]').forEach(card => {
+      const glow = document.createElement('span');
+      glow.style.cssText = 'position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,207,255,0.14) 0%,transparent 70%);pointer-events:none;opacity:0;transition:opacity 0.4s;transform:translate(-50%,-50%);';
+      card.appendChild(glow);
+      card.addEventListener('mousemove', (ev) => {
+        const r = card.getBoundingClientRect();
+        glow.style.left = (ev.clientX - r.left) + 'px';
+        glow.style.top = (ev.clientY - r.top) + 'px';
+        glow.style.opacity = '1';
+      });
+      card.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+    });
+
+    // --- Portfolio tilt + zoom ---
+    if (!prefersReduced) document.querySelectorAll('[data-nv-tilt]').forEach(card => {
+      const img = card.querySelector('[data-nv-zoom]');
+      card.addEventListener('mousemove', (ev) => {
+        const r = card.getBoundingClientRect();
+        const dx = (ev.clientX - r.left) / r.width - 0.5;
+        const dy = (ev.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(800px) rotateY(' + (dx * 7) + 'deg) rotateX(' + (-dy * 7) + 'deg) translateY(-6px)';
+        if (img) img.style.transform = 'scale(1.07)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1), border-color 0.4s, box-shadow 0.4s';
+        card.style.transform = '';
+        if (img) img.style.transform = '';
+        setTimeout(() => { card.style.transition = 'border-color 0.4s, box-shadow 0.4s'; }, 600);
+      });
+    });
+
+    // --- Testimonials auto slide ---
+    if (this.props.autoSlide ?? true) {
+      this.timer = setInterval(() => {
+        if (Date.now() - (this.lastInteract || 0) > 4000) this.slide(1);
+      }, 4500);
+    }
+
+  }
+
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+}
+</script>
+</body>
+</html>

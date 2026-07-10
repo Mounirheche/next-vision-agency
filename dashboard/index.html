@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Next Vision Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="nv-shell">
+    <aside class="nv-sidebar">
+      <div class="nv-brand">
+        <div>
+          <div class="nv-brand-title">Next Vision Agency</div>
+          <div class="nv-brand-sub" data-t="dash">Dashboard</div>
+        </div>
+        <button type="button" class="nv-hamburger" id="sidebar-toggle" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="nv-sidebar-collapsible" id="sidebar-collapsible">
+        <nav class="nv-nav">
+          <div class="nv-nav-item active" data-section="messages">
+            <span>✉</span><span data-t="nav.messages">Messages</span>
+            <span class="count" id="unread-count" style="display:none;">0</span>
+          </div>
+          <div class="nv-nav-item" data-section="portfolio">
+            <span>▦</span><span data-t="nav.portfolio">Portfolio</span>
+          </div>
+          <div class="nv-nav-item" data-section="testimonials">
+            <span>★</span><span data-t="nav.testimonials">Testimonials</span>
+          </div>
+          <div class="nv-nav-item" data-section="content">
+            <span>✎</span><span data-t="nav.content">Site Content</span>
+          </div>
+          <div class="nv-nav-item" data-section="settings">
+            <span>⚙</span><span data-t="nav.settings">Settings</span>
+          </div>
+        </nav>
+        <div class="nv-sidebar-footer">
+          <a class="nv-btn-ghost nv-btn" href="../Next Vision Agency.dc.html" target="_blank" rel="noopener" style="width: 100%; justify-content: center; text-decoration: none; box-sizing: border-box;">
+            <span data-t="viewSite">View Website</span><span>↗</span>
+          </a>
+          <div class="nv-lang-toggle">
+            <button type="button" data-lang="en" class="active">EN</button>
+            <button type="button" data-lang="ar">AR</button>
+          </div>
+          <button class="nv-btn-ghost nv-btn" id="logout-btn" style="width: 100%; justify-content: center;" data-t="logout">Log Out</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="nv-main">
+      <!-- Messages -->
+      <section class="nv-section active" id="section-messages">
+        <div class="nv-page-title" data-t="messages.title">Contact Messages</div>
+        <div class="nv-page-sub" data-t="messages.sub">Submissions from the website's contact form.</div>
+        <div id="messages-list"></div>
+      </section>
+
+      <!-- Portfolio -->
+      <section class="nv-section" id="section-portfolio">
+        <div class="nv-page-title" data-t="portfolio.title">Portfolio</div>
+        <div class="nv-page-sub" data-t="portfolio.sub">Projects shown on the public Portfolio page.</div>
+
+        <div class="nv-portfolio-grid" id="portfolio-grid"></div>
+
+        <div class="nv-glass nv-card">
+          <h3 style="margin-bottom: 16px;" data-t="portfolio.addTitle" id="portfolio-form-title">Add a Project</h3>
+          <form id="portfolio-form">
+            <input type="hidden" id="portfolio-edit-id" value="">
+            <div class="nv-grid-2">
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.titleEn">Title (English)</label>
+                <input class="nv-input" id="p-titleEn" required>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.titleAr">Title (Arabic)</label>
+                <input class="nv-input" id="p-titleAr" dir="rtl">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.categoryEn">Category (English)</label>
+                <input class="nv-input" id="p-categoryEn" placeholder="Web Development">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.categoryAr">Category (Arabic)</label>
+                <input class="nv-input" id="p-categoryAr" dir="rtl">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.tag">Filter Tag</label>
+                <select class="nv-input" id="p-tag">
+                  <option value="web">Web Development</option>
+                  <option value="mobile">Mobile</option>
+                  <option value="branding">Branding</option>
+                </select>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.projectUrl">Project Link</label>
+                <input class="nv-input" id="p-projectUrl" type="url" placeholder="https://example.com">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.image">Cover Image</label>
+                <input class="nv-input" id="p-image" type="file" accept="image/*">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.gallery">Additional Photos &amp; Video</label>
+                <input class="nv-input" id="p-gallery" type="file" accept="image/*,video/*" multiple>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.descriptionEn">Description (English)</label>
+                <textarea class="nv-input" id="p-descriptionEn" rows="4"></textarea>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="portfolio.field.descriptionAr">Description (Arabic)</label>
+                <textarea class="nv-input" id="p-descriptionAr" rows="4" dir="rtl"></textarea>
+              </div>
+            </div>
+            <div class="nv-field" id="gallery-manage-wrap" style="display:none;">
+              <label class="nv-label" data-t="portfolio.field.currentGallery">Current Photos &amp; Video</label>
+              <div id="gallery-manage-list" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+            </div>
+            <div style="display:flex; gap: 10px;">
+              <button class="nv-btn" type="submit" id="portfolio-submit-btn" data-t="portfolio.save">Add Project</button>
+              <button class="nv-btn-ghost nv-btn" type="button" id="portfolio-cancel-btn" style="display:none;" data-t="portfolio.cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Testimonials -->
+      <section class="nv-section" id="section-testimonials">
+        <div class="nv-page-title" data-t="testimonials.title">Testimonials</div>
+        <div class="nv-page-sub" data-t="testimonials.sub">Client reviews shown in the homepage testimonials carousel.</div>
+
+        <div class="nv-portfolio-grid" id="testimonials-grid"></div>
+
+        <div class="nv-glass nv-card">
+          <h3 style="margin-bottom: 16px;" data-t="testimonials.addTitle" id="testimonial-form-title">Add a Testimonial</h3>
+          <form id="testimonial-form">
+            <input type="hidden" id="t-edit-id" value="">
+            <div class="nv-grid-2">
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.nameEn">Name (English)</label>
+                <input class="nv-input" id="t-nameEn" required>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.nameAr">Name (Arabic)</label>
+                <input class="nv-input" id="t-nameAr" dir="rtl">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.roleEn">Role / Company (English)</label>
+                <input class="nv-input" id="t-roleEn" placeholder="CEO, Company Name">
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.roleAr">Role / Company (Arabic)</label>
+                <input class="nv-input" id="t-roleAr" dir="rtl">
+              </div>
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="testimonials.field.quoteEn">Quote (English)</label>
+              <textarea class="nv-input" id="t-quoteEn" rows="3" required></textarea>
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="testimonials.field.quoteAr">Quote (Arabic)</label>
+              <textarea class="nv-input" id="t-quoteAr" rows="3" dir="rtl"></textarea>
+            </div>
+            <div class="nv-grid-2">
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.rating">Rating</label>
+                <div id="t-rating-picker" class="nv-star-picker" data-value="5">
+                  <span data-star="1">★</span><span data-star="2">★</span><span data-star="3">★</span><span data-star="4">★</span><span data-star="5">★</span>
+                </div>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="testimonials.field.photo">Photo</label>
+                <input class="nv-input" id="t-photo" type="file" accept="image/*">
+              </div>
+            </div>
+            <div style="display:flex; gap: 10px;">
+              <button class="nv-btn" type="submit" id="testimonial-submit-btn" data-t="testimonials.save">Add Testimonial</button>
+              <button class="nv-btn-ghost nv-btn" type="button" id="testimonial-cancel-btn" style="display:none;" data-t="testimonials.cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class="nv-section" id="section-content">
+        <div class="nv-page-title" data-t="content.title">Site Content</div>
+        <div class="nv-page-sub" data-t="content.sub">Edit the headlines, testimonials, and button text shown on the website, in both languages.</div>
+        <div id="content-groups"></div>
+        <button class="nv-btn" id="content-save-btn" data-t="content.save">Save All Changes</button>
+      </section>
+
+      <!-- Settings -->
+      <section class="nv-section" id="section-settings">
+        <div class="nv-page-title" data-t="settings.title">Agency Settings</div>
+        <div class="nv-page-sub" data-t="settings.sub">The real contact info shown across the website.</div>
+        <form id="settings-form" class="nv-glass nv-card">
+          <div class="nv-grid-2">
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.email">Email Address</label>
+              <input class="nv-input" id="s-email" type="email">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.phone">Phone Number</label>
+              <input class="nv-input" id="s-phone" type="text" placeholder="+213 ...">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.whatsapp">WhatsApp Number (digits only, with country code)</label>
+              <input class="nv-input" id="s-whatsapp" type="text" placeholder="2135XXXXXXXX">
+            </div>
+            <div class="nv-field"></div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.addressEn">Address (English)</label>
+              <input class="nv-input" id="s-addressEn" type="text">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.addressAr">Address (Arabic)</label>
+              <input class="nv-input" id="s-addressAr" type="text" dir="rtl">
+            </div>
+          </div>
+          <h3 style="margin: 8px 0 16px;" data-t="settings.social">Social Links</h3>
+          <div class="nv-grid-2">
+            <div class="nv-field">
+              <label class="nv-label">Facebook</label>
+              <input class="nv-input" id="s-facebook" type="url" placeholder="https://facebook.com/...">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label">Instagram</label>
+              <input class="nv-input" id="s-instagram" type="url" placeholder="https://instagram.com/...">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label">LinkedIn</label>
+              <input class="nv-input" id="s-linkedin" type="url" placeholder="https://linkedin.com/...">
+            </div>
+            <div class="nv-field">
+              <label class="nv-label">X / Twitter</label>
+              <input class="nv-input" id="s-twitter" type="url" placeholder="https://x.com/...">
+            </div>
+          </div>
+          <button class="nv-btn" type="submit" data-t="settings.save">Save Settings</button>
+        </form>
+
+        <h3 style="margin: 30px 0 4px;" data-t="settings.changePasswordTitle">Change Your Password</h3>
+        <div class="nv-page-sub" data-t="settings.changePasswordSub">Update the password for the account you're logged in as.</div>
+        <form id="password-form" class="nv-glass nv-card">
+          <div class="nv-grid-2">
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.currentPassword">Current Password</label>
+              <input class="nv-input" id="pw-current" type="password" autocomplete="current-password" required>
+            </div>
+            <div class="nv-field"></div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.newPassword">New Password</label>
+              <input class="nv-input" id="pw-new" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+            <div class="nv-field">
+              <label class="nv-label" data-t="settings.confirmPassword">Confirm New Password</label>
+              <input class="nv-input" id="pw-confirm" type="password" autocomplete="new-password" minlength="6" required>
+            </div>
+          </div>
+          <button class="nv-btn" type="submit" data-t="settings.changePasswordSave">Update Password</button>
+        </form>
+
+        <h3 style="margin: 30px 0 4px;" data-t="settings.accountsTitle">Dashboard Accounts</h3>
+        <div class="nv-page-sub" data-t="settings.accountsSub">Everyone listed here can log into this dashboard.</div>
+        <div id="accounts-list" style="margin-bottom: 16px;"></div>
+        <div class="nv-glass nv-card">
+          <h3 style="margin-bottom: 16px;" data-t="settings.addAccountTitle">Add an Account</h3>
+          <form id="add-account-form">
+            <div class="nv-grid-2">
+              <div class="nv-field">
+                <label class="nv-label" data-t="settings.newUsername">Username</label>
+                <input class="nv-input" id="acc-username" type="text" required>
+              </div>
+              <div class="nv-field">
+                <label class="nv-label" data-t="settings.newAccountPassword">Password</label>
+                <input class="nv-input" id="acc-password" type="password" autocomplete="new-password" minlength="6" required>
+              </div>
+            </div>
+            <button class="nv-btn" type="submit" data-t="settings.addAccountSave">Add Account</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="nv-toast" id="toast"></div>
+
+  <script src="./content-schema.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

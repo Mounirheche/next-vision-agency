@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #020919; font-family: 'Manrope', sans-serif; color: #FFFFFF; overflow-x: hidden; }
+* { box-sizing: border-box; }
+a { color: #00CFFF; text-decoration: none; }
+a:hover { color: #7FE4FF; }
+::selection { background: rgba(0,207,255,0.3); }
+@keyframes nvPulse { 0%,100% { box-shadow: 0 0 24px rgba(0,207,255,0.45), 0 0 60px rgba(0,207,255,0.18); } 50% { box-shadow: 0 0 40px rgba(0,207,255,0.75), 0 0 90px rgba(0,207,255,0.3); } }
+@keyframes nvGrid { from { background-position: 0 0; } to { background-position: 64px 64px; } }
+@keyframes nvGlowDrift { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.55; } 50% { transform: translate(60px,-40px) scale(1.15); opacity: 0.8; } }
+@keyframes nvGlowDrift2 { 0%,100% { transform: translate(0,0) scale(1.1); opacity: 0.4; } 50% { transform: translate(-70px,50px) scale(0.95); opacity: 0.65; } }
+@keyframes nvShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes nvRipple { from { transform: scale(0); opacity: 0.5; } to { transform: scale(3); opacity: 0; } }
+.nv-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+.nv-reveal.nv-in { opacity: 1; transform: translateY(0); }
+.nv-input:focus { outline: none; border-color: rgba(0,207,255,0.6) !important; box-shadow: 0 0 0 3px rgba(0,207,255,0.12) !important; }
+
+@media (max-width: 980px) {
+  .nv-nav-links { display: none; }
+  .nv-nav-en { display: none; }
+  .nv-contact-grid { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-hero-title { font-size: 48px !important; }
+}
+@media (max-width: 640px) {
+  .nv-contact-form-row { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nv-hero-title { font-size: 36px !important; }
+}
+</style>
+</helmet>
+
+<dc-import name="Background" particles="{{ true }}" grid="{{ true }}" hint-size="100%,100%"></dc-import>
+<dc-import name="Nav" active-page="contact" hint-size="100%,84px"></dc-import>
+
+<header data-screen-label="Contact Hero" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 170px 32px 50px; text-align: center;">
+  <div class="nv-reveal" style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); backdrop-filter: blur(8px); margin-bottom: 28px;">
+    <span style="width: 6px; height: 6px; border-radius: 50%; background: #00CFFF; box-shadow: 0 0 10px #00CFFF;"></span>
+    <span data-i18n="contact.hero.badge" style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Get In Touch</span>
+  </div>
+  <h1 class="nv-reveal nv-hero-title" data-i18n="contact.hero.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 58px; line-height: 1.12; font-weight: 700; margin: 0 auto 22px; letter-spacing: -0.02em; max-width: 700px;">Let's Build Something <span style="background: linear-gradient(100deg, #00CFFF 20%, #3B82F6 50%, #00CFFF 80%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nvShimmer 5s linear infinite;">Amazing Together</span></h1>
+  <p class="nv-reveal" data-i18n="contact.hero.subtitle" style="font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 540px; margin: 0 auto;">Tell us about your project — we typically reply within one business day.</p>
+</header>
+
+<section data-screen-label="Contact Form" class="nv-contact-grid" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px; display: grid; grid-template-columns: 1.2fr 0.9fr; gap: 32px; align-items: start;">
+  <form class="nv-reveal" onSubmit="{{ handleSubmit }}" style="padding: 40px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(16px); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);">
+    <div class="nv-contact-form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+      <div>
+        <label data-i18n="contact.form.name.label" style="display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 8px;">Full Name</label>
+        <input class="nv-input" type="text" name="name" required placeholder="Jane Doe" data-i18n="contact.form.name.placeholder" data-i18n-attr="placeholder" style="width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 14.5px; font-family: 'Manrope', sans-serif; transition: border-color 0.3s, box-shadow 0.3s;">
+      </div>
+      <div>
+        <label data-i18n="contact.form.email.label" style="display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 8px;">Email Address</label>
+        <input class="nv-input" type="email" name="email" required placeholder="jane@company.com" style="width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 14.5px; font-family: 'Manrope', sans-serif; transition: border-color 0.3s, box-shadow 0.3s;">
+      </div>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <label data-i18n="contact.form.subject.label" style="display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 8px;">Subject</label>
+      <input class="nv-input" type="text" name="subject" placeholder="Tell us what you need" data-i18n="contact.form.subject.placeholder" data-i18n-attr="placeholder" style="width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 14.5px; font-family: 'Manrope', sans-serif; transition: border-color 0.3s, box-shadow 0.3s;">
+    </div>
+    <div style="margin-bottom: 28px;">
+      <label data-i18n="contact.form.message.label" style="display: block; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 8px;">Project Details</label>
+      <textarea class="nv-input" rows="5" name="message" required placeholder="Share a few details about your project, timeline, and budget." data-i18n="contact.form.message.placeholder" data-i18n-attr="placeholder" style="width: 100%; padding: 13px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 14.5px; font-family: 'Manrope', sans-serif; resize: vertical; transition: border-color 0.3s, box-shadow 0.3s;"></textarea>
+    </div>
+    <button type="submit" data-nv-magnetic="" data-nv-ripple="" disabled="{{ submitDisabled }}" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 34px; border-radius: 12px; border: none; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 15.5px; font-weight: 800; font-family: 'Manrope', sans-serif; cursor: pointer; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span>{{ submitLabel }}</span><span>→</span></button>
+    <p style="margin: 14px 0 0; font-size: 13.5px; color: {{ errorColor }};">{{ errorText }}</p>
+  </form>
+
+  <div class="nv-reveal" style="display: flex; flex-direction: column; gap: 20px;">
+    <div data-nv-lift="" style="padding: 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;">
+      <div style="width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); margin-bottom: 16px;"><span style="color: #00CFFF; font-size: 18px;">✉</span></div>
+      <h3 data-i18n="contact.info.email.label" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 6px;">Email Us</h3>
+      <a href="mailto:hello@nextvision.agency" data-nv-contact="email" style="font-size: 14px; color: rgba(255,255,255,0.7);" style-hover="color: #00CFFF;"><span data-nv-field="email">hello@nextvision.agency</span></a>
+    </div>
+    <div data-nv-lift="" style="padding: 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;">
+      <div style="width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); margin-bottom: 16px;"><span style="color: #00CFFF; font-size: 18px;">✆</span></div>
+      <h3 data-i18n="contact.info.phone.label" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 6px;">Call Us</h3>
+      <a href="tel:+213XXXXXXXXX" data-nv-contact="phone" style="font-size: 14px; color: rgba(255,255,255,0.7); text-decoration: none;" style-hover="color: #00CFFF;"><span data-nv-field="phone">+213 XXX XXX XXX</span></a>
+    </div>
+    <div data-nv-lift="" style="padding: 28px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;">
+      <div style="width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(0,207,255,0.16), rgba(59,130,246,0.08)); border: 1px solid rgba(0,207,255,0.35); margin-bottom: 16px;"><span style="color: #00CFFF; font-size: 18px;">◎</span></div>
+      <h3 data-i18n="contact.info.address.label" style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin: 0 0 6px;">Visit Us</h3>
+      <span data-i18n="contact.info.address.value" style="font-size: 14px; color: rgba(255,255,255,0.7);">Algiers, Algeria</span>
+    </div>
+    <a href="Contact.dc.html" data-nv-lift="" data-nv-contact="whatsapp" style="display: flex; align-items: center; gap: 12px; padding: 20px 24px; border-radius: 18px; border: 1px solid rgba(0,207,255,0.3); background: rgba(0,207,255,0.06); transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;">
+      <span style="color: #2BD466; font-size: 20px;">◈</span>
+      <span data-i18n="contact.whatsapp.label" style="font-size: 14px; font-weight: 700; color: #FFFFFF;">Chat with us on WhatsApp</span>
+    </a>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,400px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { status: 'idle', errorMessage: '' };
+
+  renderVals() {
+    const labels = {
+      idle: 'Send Message',
+      submitting: 'Sending…',
+      sent: 'Message Sent ✓',
+      error: 'Send Message',
+    };
+    return {
+      handleSubmit: async (e) => {
+        e.preventDefault();
+        if (this.state.status === 'submitting') return;
+        const form = e.target;
+        const data = new FormData(form);
+        const payload = {
+          name: (data.get('name') || '').toString().trim(),
+          email: (data.get('email') || '').toString().trim(),
+          subject: (data.get('subject') || '').toString().trim(),
+          message: (data.get('message') || '').toString().trim(),
+        };
+        this.setState({ status: 'submitting', errorMessage: '' });
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({}));
+            throw new Error(body.error || 'Something went wrong. Please try again.');
+          }
+          this.setState({ status: 'sent', errorMessage: '' });
+          form.reset();
+          setTimeout(() => this.setState({ status: 'idle' }), 3200);
+        } catch (err) {
+          this.setState({ status: 'error', errorMessage: (err && err.message) || 'Something went wrong. Please try again.' });
+        }
+      },
+      submitDisabled: this.state.status === 'submitting',
+      submitLabel: labels[this.state.status] || labels.idle,
+      errorText: this.state.status === 'error' ? this.state.errorMessage : '',
+      errorColor: '#FF6B6B',
+    };
+  }
+
+  componentDidMount() {
+    const reveals = Array.from(document.querySelectorAll('.nv-reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('nv-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', (ev) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ev.clientX - (r.left + r.width / 2);
+          const dy = ev.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          btn.style.transform = 'translate(0,0)';
+          setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-nv-ripple]').forEach(btn => {
+      btn.addEventListener('click', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        const size = Math.max(r.width, r.height);
+        s.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px;animation:nvRipple 0.7s ease-out forwards;';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
+    });
+
+    document.querySelectorAll('[data-nv-lift]').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-6px)';
+        card.style.borderColor = 'rgba(0,207,255,0.4)';
+        card.style.boxShadow = '0 20px 50px rgba(0,60,120,0.3)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>

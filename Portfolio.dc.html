@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #020919; font-family: 'Manrope', sans-serif; color: #FFFFFF; overflow-x: hidden; }
+* { box-sizing: border-box; }
+a { color: #00CFFF; text-decoration: none; }
+a:hover { color: #7FE4FF; }
+::selection { background: rgba(0,207,255,0.3); }
+@keyframes nvPulse { 0%,100% { box-shadow: 0 0 24px rgba(0,207,255,0.45), 0 0 60px rgba(0,207,255,0.18); } 50% { box-shadow: 0 0 40px rgba(0,207,255,0.75), 0 0 90px rgba(0,207,255,0.3); } }
+@keyframes nvGrid { from { background-position: 0 0; } to { background-position: 64px 64px; } }
+@keyframes nvGlowDrift { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.55; } 50% { transform: translate(60px,-40px) scale(1.15); opacity: 0.8; } }
+@keyframes nvGlowDrift2 { 0%,100% { transform: translate(0,0) scale(1.1); opacity: 0.4; } 50% { transform: translate(-70px,50px) scale(0.95); opacity: 0.65; } }
+@keyframes nvShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes nvStreak { 0% { transform: translateX(-120%) skewX(-20deg); opacity: 0; } 15% { opacity: 0.8; } 85% { opacity: 0.8; } 100% { transform: translateX(240%) skewX(-20deg); opacity: 0; } }
+@keyframes nvRipple { from { transform: scale(0); opacity: 0.5; } to { transform: scale(3); opacity: 0; } }
+.nv-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+.nv-reveal.nv-in { opacity: 1; transform: translateY(0); }
+.nv-filter-btn { transition: color 0.3s, background 0.3s, border-color 0.3s; }
+
+@media (max-width: 980px) {
+  .nv-nav-links { display: none; }
+  .nv-nav-en { display: none; }
+  .nv-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-cta-grid { grid-template-columns: 1fr !important; }
+  .nv-hero-title { font-size: 48px !important; }
+}
+@media (max-width: 640px) {
+  .nv-grid-4 { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nv-hero-title { font-size: 36px !important; }
+}
+</style>
+</helmet>
+
+<dc-import name="Background" particles="{{ true }}" grid="{{ true }}" hint-size="100%,100%"></dc-import>
+<dc-import name="Nav" active-page="portfolio" hint-size="100%,84px"></dc-import>
+
+<header data-screen-label="Portfolio Hero" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 170px 32px 50px; text-align: center;">
+  <div class="nv-reveal" style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); backdrop-filter: blur(8px); margin-bottom: 28px;">
+    <span style="width: 6px; height: 6px; border-radius: 50%; background: #00CFFF; box-shadow: 0 0 10px #00CFFF;"></span>
+    <span data-i18n="portfolio.hero.badge" style="font-size: 12px; font-weight: 700; letter-spacing: 0.22em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;">Our Work</span>
+  </div>
+  <h1 class="nv-reveal nv-hero-title" data-i18n="portfolio.hero.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 60px; line-height: 1.12; font-weight: 700; margin: 0 auto 22px; letter-spacing: -0.02em; max-width: 760px;">Projects That <span style="background: linear-gradient(100deg, #00CFFF 20%, #3B82F6 50%, #00CFFF 80%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: nvShimmer 5s linear infinite;">Speak For Themselves</span></h1>
+  <p class="nv-reveal" data-i18n="portfolio.hero.subtitle" style="font-size: 17px; line-height: 1.7; color: rgba(255,255,255,0.7); max-width: 560px; margin: 0 auto 36px;">A selection of the products, brands, and platforms we've helped bring to life.</p>
+  <div class="nv-reveal" style="display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap;">
+    <button data-nv-filter="all" data-i18n="portfolio.filter.all" style="padding: 10px 22px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.5); background: rgba(0,207,255,0.12); color: #00CFFF; font-size: 14px; font-weight: 700; white-space: nowrap; cursor: pointer;" class="nv-filter-btn">All Projects</button>
+    <button data-nv-filter="web" data-i18n="portfolio.filter.web" style="padding: 10px 22px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer;" class="nv-filter-btn">Web Development</button>
+    <button data-nv-filter="mobile" data-i18n="portfolio.filter.mobile" style="padding: 10px 22px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer;" class="nv-filter-btn">Mobile</button>
+    <button data-nv-filter="branding" data-i18n="portfolio.filter.branding" style="padding: 10px 22px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer;" class="nv-filter-btn">Branding</button>
+  </div>
+</header>
+
+<section data-screen-label="Portfolio Grid" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 60px;">
+  <div class="nv-grid-4" id="nv-portfolio-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;"></div>
+</section>
+
+<section data-screen-label="Results" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px;">
+  <div class="nv-reveal nv-grid-4" style="display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; background: rgba(255,255,255,0.025); backdrop-filter: blur(14px); box-shadow: 0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);">
+    <div style="text-align: center; padding: 34px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);">50+</div>
+      <div data-i18n="portfolio.stats.projects.label" style="margin-top: 8px; font-size: 13.5px; color: rgba(255,255,255,0.7);">Projects Shipped</div>
+    </div>
+    <div style="text-align: center; padding: 34px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);">12</div>
+      <div data-i18n="portfolio.stats.industries.label" style="margin-top: 8px; font-size: 13.5px; color: rgba(255,255,255,0.7);">Industries Served</div>
+    </div>
+    <div style="text-align: center; padding: 34px 20px; border-right: 1px solid rgba(255,255,255,0.07);">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);">4.9/5</div>
+      <div data-i18n="portfolio.stats.rating.label" style="margin-top: 8px; font-size: 13.5px; color: rgba(255,255,255,0.7);">Average Client Rating</div>
+    </div>
+    <div style="text-align: center; padding: 34px 20px;">
+      <div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: #00CFFF; text-shadow: 0 0 24px rgba(0,207,255,0.4);">100%</div>
+      <div data-i18n="portfolio.stats.delivery.label" style="margin-top: 8px; font-size: 13.5px; color: rgba(255,255,255,0.7);">On-Time Delivery</div>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="CTA" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 20px 32px 100px;">
+  <div class="nv-reveal nv-cta-grid" style="position: relative; overflow: hidden; border-radius: 26px; border: 1px solid rgba(0,207,255,0.22); background: linear-gradient(120deg, rgba(6,20,45,0.9), rgba(2,9,25,0.95)); box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr; align-items: center; text-align: center;">
+    <div style="position: absolute; top: 0; left: -40%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.08), transparent); animation: nvStreak 5s ease-in-out infinite;"></div>
+    <div style="position: relative; padding: 64px 40px;">
+      <h2 data-i18n="portfolio.cta.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; line-height: 1.25; margin: 0 0 30px; letter-spacing: -0.015em;">Want results like these for <span style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.5);">your brand?</span></h2>
+      <a href="Contact.dc.html" data-nv-magnetic="" data-nv-ripple="" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 34px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 16px; font-weight: 800; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span data-i18n="portfolio.cta.button">Start Your Project</span><span>→</span></a>
+    </div>
+  </div>
+</section>
+
+<dc-import name="Footer" hint-size="100%,400px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const FALLBACK_PORTFOLIO = [
+  { id: 'ecommerce', title: { en: 'E-Commerce Platform', ar: 'منصة تجارة إلكترونية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-1.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'fooddelivery', title: { en: 'Food Delivery App', ar: 'تطبيق توصيل الطعام' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: 'assets/proj-2.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'techstartup', title: { en: 'Tech Startup Identity', ar: 'هوية شركة تقنية ناشئة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: 'assets/proj-3.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'realestate', title: { en: 'Real Estate Portal', ar: 'بوابة عقارية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-4.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'fittrack', title: { en: 'FitTrack Wellness App', ar: 'تطبيق FitTrack للياقة البدنية' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'horizon', title: { en: 'Horizon SaaS Dashboard', ar: 'لوحة تحكم Horizon SaaS' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'aurora', title: { en: 'Aurora Skincare Rebrand', ar: 'إعادة تصميم هوية Aurora لمستحضرات البشرة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'marche', title: { en: 'Marché Boutique Identity', ar: 'هوية متجر Marché' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+];
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+class Component extends DCLogic {
+  wireReveal(container) {
+    const reveals = Array.from(container.querySelectorAll('.nv-reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const siblings = reveals.filter(r => r.parentElement === e.target.parentElement && !r.classList.contains('nv-in'));
+          const i = Math.max(0, siblings.indexOf(e.target));
+          e.target.style.transitionDelay = (i * 90) + 'ms';
+          e.target.classList.add('nv-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    reveals.forEach(el => io.observe(el));
+  }
+
+  wireTilt(container) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    container.querySelectorAll('[data-nv-tilt]').forEach(card => {
+      const img = card.querySelector('[data-nv-zoom]');
+      card.addEventListener('mousemove', (ev) => {
+        const r = card.getBoundingClientRect();
+        const dx = (ev.clientX - r.left) / r.width - 0.5;
+        const dy = (ev.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(800px) rotateY(' + (dx * 7) + 'deg) rotateX(' + (-dy * 7) + 'deg) translateY(-6px)';
+        if (img) img.style.transform = 'scale(1.07)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        if (img) img.style.transform = '';
+      });
+    });
+  }
+
+  renderCard(item) {
+    const titleKey = '__portfolio_' + item.id + '_title';
+    const catKey = '__portfolio_' + item.id + '_category';
+    window.NV_AR_DICT = window.NV_AR_DICT || {};
+    window.NV_AR_DICT[titleKey] = item.title.ar;
+    window.NV_AR_DICT[catKey] = item.category.ar;
+
+    const media = item.image
+      ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title.en)}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">`
+      : `<div style="width:100%;height:100%;background: linear-gradient(145deg, rgba(0,207,255,0.14), rgba(59,130,246,0.06)); display: grid; place-items: center;"><svg width="56" height="56" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="4" stroke="#00CFFF" stroke-width="1.6"></rect><path d="M9 14 L12.5 17.5 L19 10" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>`;
+
+    const hasLightboxContent = (item.gallery && item.gallery.length) || item.projectUrl || (item.description && item.description.en);
+    const hintLabel = item.gallery && item.gallery.length ? 'View Gallery' : (item.projectUrl ? 'Visit Project ↗' : 'View Details');
+    const viewHint = `<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; transition: opacity 0.3s; background: rgba(2,9,25,0.35);" class="nv-portfolio-hint"><span style="padding:8px 16px; border-radius:999px; border:1px solid rgba(0,207,255,0.5); background:rgba(0,207,255,0.14); color:#00CFFF; font-size:12.5px; font-weight:700;">${hintLabel}</span></div>`;
+
+    return `<div class="nv-reveal" data-nv-tilt="" data-cat="${escapeHtml(item.tag)}" data-portfolio-id="${escapeHtml(item.id)}" data-has-lightbox="${hasLightboxContent ? '1' : '0'}" style="cursor: pointer; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); overflow: hidden; transition: border-color 0.4s, box-shadow 0.4s, opacity 0.35s, transform 0.35s; will-change: transform;" style-hover="border-color: rgba(0,207,255,0.45); box-shadow: 0 24px 50px rgba(0,80,140,0.3);">
+      <div class="nv-portfolio-hint-wrap" style="position: relative; overflow: hidden; aspect-ratio: 4/3;">
+        ${media}
+        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(2,9,25,0.75), transparent 55%); opacity: 0.7;"></div>
+        ${viewHint}
+      </div>
+      <div style="padding: 20px 22px 24px;">
+        <h3 data-i18n="${titleKey}" style="font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin: 0 0 8px;">${escapeHtml(item.title.en)}</h3>
+        <span data-i18n="${catKey}" style="font-size: 11px; font-weight: 700; letter-spacing: 0.18em; color: #00CFFF; text-transform: uppercase;">${escapeHtml(item.category.en)}</span>
+      </div>
+    </div>`;
+  }
+
+  buildLightbox() {
+    if (this.lightboxEl) return this.lightboxEl;
+    const el = document.createElement('div');
+    el.id = 'nv-lightbox';
+    el.style.cssText = 'position:fixed; inset:0; z-index:2000; display:none; align-items:center; justify-content:center; padding:40px 20px; background:rgba(2,9,25,0.88); backdrop-filter:blur(10px);';
+    el.innerHTML = `
+      <div style="position:relative; width:100%; max-width:880px; max-height:100%; overflow:auto; border-radius:22px; border:1px solid rgba(255,255,255,0.1); background:rgba(6,20,45,0.95); box-shadow:0 30px 80px rgba(0,0,0,0.5);">
+        <button type="button" data-lb-close style="position:absolute; top:14px; right:14px; z-index:2; width:36px; height:36px; border-radius:50%; border:1px solid rgba(255,255,255,0.2); background:rgba(2,9,25,0.7); color:#fff; font-size:18px; cursor:pointer; line-height:1;">×</button>
+        <div data-lb-slide style="position:relative; width:100%; aspect-ratio:16/10; background:#000; display:flex; align-items:center; justify-content:center;"></div>
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 20px; gap:10px;">
+          <button type="button" data-lb-prev style="padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.04); color:#fff; cursor:pointer;">← Prev</button>
+          <span data-lb-counter style="font-size:12.5px; color:rgba(255,255,255,0.6);"></span>
+          <button type="button" data-lb-next style="padding:8px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.04); color:#fff; cursor:pointer;">Next →</button>
+        </div>
+        <div style="padding:6px 24px 26px;">
+          <h3 data-lb-title style="font-family:'Space Grotesk', sans-serif; font-size:22px; font-weight:700; margin:0 0 6px;"></h3>
+          <span data-lb-cat style="font-size:11px; font-weight:700; letter-spacing:0.18em; color:#00CFFF; text-transform:uppercase;"></span>
+          <p data-lb-desc style="display:none; font-size:14px; line-height:1.7; color:rgba(255,255,255,0.7); margin:14px 0 0;"></p>
+          <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a data-lb-visit href="#" target="_blank" rel="noopener" style="display:none; align-items:center; gap:8px; padding:12px 24px; border-radius:10px; background:linear-gradient(135deg, #00CFFF, #3B82F6); color:#021019; font-weight:800; font-size:14px;">Visit Project <span>↗</span></a>
+            <a data-lb-fullpage href="#" style="display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:10px; border:1px solid rgba(255,255,255,0.18); background:rgba(255,255,255,0.03); color:#fff; font-weight:700; font-size:14px;">View Full Page <span>→</span></a>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(el);
+
+    el.addEventListener('click', (ev) => {
+      if (ev.target === el) this.closeLightbox();
+    });
+    el.querySelector('[data-lb-close]').addEventListener('click', () => this.closeLightbox());
+    el.querySelector('[data-lb-prev]').addEventListener('click', () => this.showSlide(this.lbIndex - 1));
+    el.querySelector('[data-lb-next]').addEventListener('click', () => this.showSlide(this.lbIndex + 1));
+    document.addEventListener('keydown', (ev) => {
+      if (el.style.display !== 'flex') return;
+      if (ev.key === 'Escape') this.closeLightbox();
+      if (ev.key === 'ArrowLeft') this.showSlide(this.lbIndex - 1);
+      if (ev.key === 'ArrowRight') this.showSlide(this.lbIndex + 1);
+    });
+
+    this.lightboxEl = el;
+    return el;
+  }
+
+  showSlide(index) {
+    if (!this.lbSlides || !this.lbSlides.length) return;
+    this.lbIndex = (index + this.lbSlides.length) % this.lbSlides.length;
+    const slide = this.lbSlides[this.lbIndex];
+    const holder = this.lightboxEl.querySelector('[data-lb-slide]');
+    holder.innerHTML = slide.type === 'video'
+      ? `<video src="${escapeHtml(slide.url)}" controls autoplay style="width:100%; height:100%; object-fit:contain;"></video>`
+      : `<img src="${escapeHtml(slide.url)}" alt="" style="width:100%; height:100%; object-fit:contain;">`;
+    const nav = this.lbSlides.length > 1;
+    this.lightboxEl.querySelector('[data-lb-prev]').style.display = nav ? '' : 'none';
+    this.lightboxEl.querySelector('[data-lb-next]').style.display = nav ? '' : 'none';
+    this.lightboxEl.querySelector('[data-lb-counter]').textContent = nav ? (this.lbIndex + 1) + ' / ' + this.lbSlides.length : '';
+  }
+
+  openLightbox(item) {
+    const el = this.buildLightbox();
+    const slides = [];
+    if (item.image) slides.push({ type: 'image', url: item.image });
+    (item.gallery || []).forEach((g) => slides.push(g));
+    const hasDescription = !!(item.description && item.description.en);
+    if (!slides.length && item.projectUrl && !hasDescription) {
+      window.open(item.projectUrl, '_blank', 'noopener');
+      return;
+    }
+    this.lbSlides = slides;
+    el.querySelector('[data-lb-title]').textContent = item.title.en;
+    el.querySelector('[data-lb-cat]').textContent = item.category.en;
+    const descEl = el.querySelector('[data-lb-desc]');
+    if (item.description && item.description.en) {
+      descEl.textContent = item.description.en;
+      descEl.style.display = '';
+    } else {
+      descEl.style.display = 'none';
+    }
+    const visitBtn = el.querySelector('[data-lb-visit]');
+    if (item.projectUrl) {
+      visitBtn.href = item.projectUrl;
+      visitBtn.style.display = 'inline-flex';
+    } else {
+      visitBtn.style.display = 'none';
+    }
+    el.querySelector('[data-lb-fullpage]').href = 'Project.dc.html?id=' + encodeURIComponent(item.id);
+    el.style.display = 'flex';
+    this.showSlide(0);
+  }
+
+  closeLightbox() {
+    if (!this.lightboxEl) return;
+    this.lightboxEl.style.display = 'none';
+    const holder = this.lightboxEl.querySelector('[data-lb-slide]');
+    holder.innerHTML = '';
+  }
+
+  wireCardClicks(grid, itemsById) {
+    grid.querySelectorAll('[data-portfolio-id]').forEach((card) => {
+      const item = itemsById[card.getAttribute('data-portfolio-id')];
+      if (!item) return;
+      const hint = card.querySelector('.nv-portfolio-hint');
+      if (hint) {
+        card.addEventListener('mouseenter', () => { hint.style.opacity = '1'; });
+        card.addEventListener('mouseleave', () => { hint.style.opacity = '0'; });
+      }
+      // Every card is clickable: open the in-place gallery/preview when there's
+      // something to show, otherwise go straight to the project's full page.
+      card.addEventListener('click', () => {
+        if (card.getAttribute('data-has-lightbox') === '1') {
+          this.openLightbox(item);
+        } else {
+          window.location.href = 'Project.dc.html?id=' + encodeURIComponent(item.id);
+        }
+      });
+    });
+  }
+
+  wireFilters(grid) {
+    const cards = Array.from(grid.querySelectorAll('[data-cat]'));
+    document.querySelectorAll('[data-nv-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-nv-filter');
+        document.querySelectorAll('[data-nv-filter]').forEach(b => {
+          const active = b === btn;
+          b.style.borderColor = active ? 'rgba(0,207,255,0.5)' : 'rgba(255,255,255,0.15)';
+          b.style.background = active ? 'rgba(0,207,255,0.12)' : 'rgba(255,255,255,0.03)';
+          b.style.color = active ? '#00CFFF' : 'rgba(255,255,255,0.7)';
+          b.style.fontWeight = active ? '700' : '600';
+        });
+        cards.forEach(card => {
+          const show = filter === 'all' || card.getAttribute('data-cat') === filter;
+          card.style.opacity = show ? '1' : '0';
+          card.style.transform = show ? '' : 'scale(0.94)';
+          card.style.display = show ? '' : 'none';
+        });
+      });
+    });
+  }
+
+  async componentDidMount() {
+    this.wireReveal(document);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', (ev) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ev.clientX - (r.left + r.width / 2);
+          const dy = ev.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          btn.style.transform = 'translate(0,0)';
+          setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-nv-ripple]').forEach(btn => {
+      btn.addEventListener('click', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        const size = Math.max(r.width, r.height);
+        s.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px;animation:nvRipple 0.7s ease-out forwards;';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
+    });
+
+    // Fetch portfolio items from the dashboard-managed API, falling back to the
+    // built-in defaults if the backend isn't reachable (e.g. static hosting).
+    let items = FALLBACK_PORTFOLIO;
+    try {
+      const res = await fetch('/api/portfolio');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) items = data;
+      }
+    } catch (e) {}
+
+    const grid = document.getElementById('nv-portfolio-grid');
+    if (grid) {
+      grid.innerHTML = items.map(item => this.renderCard(item)).join('');
+      this.wireReveal(grid);
+      this.wireTilt(grid);
+      this.wireFilters(grid);
+      const itemsById = {};
+      items.forEach((item) => { itemsById[item.id] = item; });
+      this.wireCardClicks(grid, itemsById);
+      if (window.NVI18N && window.NVI18N.applyAll) window.NVI18N.applyAll();
+    }
+  }
+}
+</script>
+</body>
+</html>

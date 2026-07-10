@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes nvNavSweepGlow { 0% { opacity: 0.9; } 100% { opacity: 0; } }
+</style>
+</helmet>
+<nav data-nv-nav="" data-screen-label="Navbar" style="position: fixed; top: 0; left: 0; right: 0; z-index: 100; opacity: 0; transform: translateY(-14px); transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1); background: rgba(2,9,25,0.72); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(0,207,255,0.12); box-shadow: 0 10px 40px rgba(0,0,0,0.4);">
+  <div data-nv-progress="" style="position: absolute; top: 0; left: 0; height: 2.5px; width: 0%; background: linear-gradient(90deg, #00CFFF, #3B82F6); box-shadow: 0 0 10px rgba(0,207,255,0.8), 0 0 18px rgba(0,207,255,0.4); border-radius: 0 2px 2px 0; transition: width 0.28s cubic-bezier(0.22,1,0.36,1); z-index: 2;"></div>
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 32px;">
+    <a href="Next Vision Agency.dc.html#top" style="display: flex; align-items: center;"><img src="assets/logo-full.png" alt="Next Vision Agency" style="height: 46px; width: auto; display: block; filter: drop-shadow(0 0 14px rgba(0,207,255,0.35));"></a>
+    <div class="nv-nav-links" style="display: flex; align-items: center; gap: 36px;">
+      <a href="Next Vision Agency.dc.html#top" data-nv-link="" data-active="{{ isHome }}" style="position: relative; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500; letter-spacing: 0.02em; padding: 6px 0;"><span data-i18n="nav.home">Home</span><span data-nv-underline="" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, #00CFFF, #3B82F6); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 0 8px rgba(0,207,255,0.6);"></span></a>
+      <a href="Services.dc.html" data-nv-link="" data-active="{{ isServices }}" style="position: relative; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500; letter-spacing: 0.02em; padding: 6px 0;"><span data-i18n="nav.services">Services</span><span data-nv-underline="" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, #00CFFF, #3B82F6); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 0 8px rgba(0,207,255,0.6);"></span></a>
+      <a href="Portfolio.dc.html" data-nv-link="" data-active="{{ isPortfolio }}" style="position: relative; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500; letter-spacing: 0.02em; padding: 6px 0;"><span data-i18n="nav.portfolio">Portfolio</span><span data-nv-underline="" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, #00CFFF, #3B82F6); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 0 8px rgba(0,207,255,0.6);"></span></a>
+      <a href="About.dc.html" data-nv-link="" data-active="{{ isAbout }}" style="position: relative; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500; letter-spacing: 0.02em; padding: 6px 0;"><span data-i18n="nav.about">About</span><span data-nv-underline="" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, #00CFFF, #3B82F6); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 0 8px rgba(0,207,255,0.6);"></span></a>
+      <a href="Contact.dc.html" data-nv-link="" data-active="{{ isContact }}" style="position: relative; color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 500; letter-spacing: 0.02em; padding: 6px 0;"><span data-i18n="nav.contact">Contact</span><span data-nv-underline="" style="position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; background: linear-gradient(90deg, #00CFFF, #3B82F6); border-radius: 2px; transform: scaleX(0); transform-origin: left; transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 0 8px rgba(0,207,255,0.6);"></span></a>
+    </div>
+    <div class="nv-nav-actions" style="display: flex; align-items: center; gap: 20px;">
+      <div class="nv-nav-en" data-nv-lang="" style="position: relative;">
+        <span data-nv-lang-toggle="" style="display: inline-block; color: rgba(255,255,255,0.7); font-size: 14px; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; user-select: none;">EN ▾</span>
+        <div data-nv-lang-menu="" style="position: absolute; top: calc(100% + 12px); right: 0; min-width: 150px; background: rgba(2,9,25,0.96); border: 1px solid rgba(0,207,255,0.25); border-radius: 12px; padding: 6px; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.25s, transform 0.25s, visibility 0.25s; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(14px); z-index: 200;">
+          <button type="button" data-nv-lang-option="en" style="display: flex; align-items: center; width: 100%; padding: 9px 12px; border-radius: 8px; border: none; background: transparent; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left; font-family: inherit;">English</button>
+          <button type="button" data-nv-lang-option="ar" style="display: flex; align-items: center; width: 100%; padding: 9px 12px; border-radius: 8px; border: none; background: transparent; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; text-align: left; font-family: inherit;">العربية</button>
+        </div>
+      </div>
+      <a data-nv-cta-btn="" href="Contact.dc.html" data-nv-magnetic="" style="display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; border-radius: 999px; background: rgba(0,207,255,0.08); border: 1px solid rgba(0,207,255,0.4); color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; flex-shrink: 0; transition: box-shadow 0.35s, background 0.35s, border-color 0.35s;" style-hover="box-shadow: 0 0 28px rgba(0,207,255,0.5); background: rgba(0,207,255,0.16); border-color: rgba(0,207,255,0.8); color: #FFFFFF;"><span data-i18n="nav.cta">Get Started</span><span style="color: #00CFFF;">→</span></a>
+      <button type="button" data-nv-hamburger="" aria-label="Menu" aria-expanded="false" style="display: none; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.03); cursor: pointer; flex-shrink: 0; padding: 0;">
+        <span style="position: relative; width: 18px; height: 13px; display: block;">
+          <span data-nv-burger-line="1" style="position: absolute; left: 0; top: 0; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.3s, top 0.3s, opacity 0.3s;"></span>
+          <span data-nv-burger-line="2" style="position: absolute; left: 0; top: 5.5px; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: opacity 0.3s;"></span>
+          <span data-nv-burger-line="3" style="position: absolute; left: 0; top: 11px; width: 100%; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.3s, top 0.3s, opacity 0.3s;"></span>
+        </span>
+      </button>
+    </div>
+  </div>
+  <div data-nv-mobile-menu="" style="max-height: 0; opacity: 0; overflow: hidden; background: rgba(2,9,25,0.97); backdrop-filter: blur(18px); border-top: 1px solid rgba(255,255,255,0.06); transition: max-height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;">
+    <div style="display: flex; flex-direction: column; padding: 8px 32px 22px; gap: 2px;">
+      <a href="Next Vision Agency.dc.html#top" data-nv-link="" data-active="{{ isHome }}" style="padding: 14px 4px; color: rgba(255,255,255,0.75); font-size: 16px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.06);"><span data-i18n="nav.home">Home</span></a>
+      <a href="Services.dc.html" data-nv-link="" data-active="{{ isServices }}" style="padding: 14px 4px; color: rgba(255,255,255,0.75); font-size: 16px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.06);"><span data-i18n="nav.services">Services</span></a>
+      <a href="Portfolio.dc.html" data-nv-link="" data-active="{{ isPortfolio }}" style="padding: 14px 4px; color: rgba(255,255,255,0.75); font-size: 16px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.06);"><span data-i18n="nav.portfolio">Portfolio</span></a>
+      <a href="About.dc.html" data-nv-link="" data-active="{{ isAbout }}" style="padding: 14px 4px; color: rgba(255,255,255,0.75); font-size: 16px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.06);"><span data-i18n="nav.about">About</span></a>
+      <a href="Contact.dc.html" data-nv-link="" data-active="{{ isContact }}" style="padding: 14px 4px; color: rgba(255,255,255,0.75); font-size: 16px; font-weight: 600;"><span data-i18n="nav.contact">Contact</span></a>
+      <a href="Contact.dc.html" style="margin-top: 16px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 24px; border-radius: 999px; background: rgba(0,207,255,0.08); border: 1px solid rgba(0,207,255,0.4); color: #FFFFFF; font-size: 15px; font-weight: 700;"><span data-i18n="nav.cta">Get Started</span><span style="color: #00CFFF;">→</span></a>
+      <div style="margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 8px;">
+        <button type="button" data-nv-lang-option="en" style="flex: 1; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">English</button>
+        <button type="button" data-nv-lang-option="ar" style="flex: 1; padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #FFFFFF; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit;">العربية</button>
+      </div>
+    </div>
+  </div>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;activePage&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;home&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;home&quot;, &quot;services&quot;, &quot;portfolio&quot;, &quot;about&quot;, &quot;contact&quot;]}}">
+class Component extends DCLogic {
+  renderVals() {
+    const active = this.props.activePage ?? 'home';
+    return {
+      isHome: active === 'home',
+      isServices: active === 'services',
+      isPortfolio: active === 'portfolio',
+      isAbout: active === 'about',
+      isContact: active === 'contact',
+    };
+  }
+
+  applyActiveStyles(animate) {
+    document.querySelectorAll('[data-nv-link]').forEach(link => {
+      const u = link.querySelector('[data-nv-underline]');
+      const active = link.getAttribute('data-active') === 'true';
+      if (active) {
+        link.style.color = '#00CFFF';
+        if (u) u.style.transform = 'scaleX(1)';
+      } else {
+        link.style.color = 'rgba(255,255,255,0.7)';
+        if (u) u.style.transform = 'scaleX(0)';
+      }
+    });
+  }
+
+  playEntrance() {
+    const nav = document.querySelector('[data-nv-nav]');
+    const bar = document.querySelector('[data-nv-progress]');
+    // Nav slides down + fades in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (nav) { nav.style.opacity = '1'; nav.style.transform = 'translateY(0)'; }
+      });
+    });
+    // Underline of active link grows in from 0 after the nav has settled
+    document.querySelectorAll('[data-nv-link]').forEach(link => {
+      const u = link.querySelector('[data-nv-underline]');
+      const active = link.getAttribute('data-active') === 'true';
+      if (active && u) u.style.transform = 'scaleX(0)';
+    });
+    setTimeout(() => {
+      document.querySelectorAll('[data-nv-link]').forEach(link => {
+        const u = link.querySelector('[data-nv-underline]');
+        const active = link.getAttribute('data-active') === 'true';
+        if (active && u) u.style.transform = 'scaleX(1)';
+      });
+    }, 260);
+    // Top progress sweep signals the new page has arrived
+    if (bar) {
+      bar.style.transition = 'none';
+      bar.style.opacity = '1';
+      bar.style.width = '0%';
+      requestAnimationFrame(() => {
+        bar.style.transition = 'width 0.5s cubic-bezier(0.22,1,0.36,1)';
+        bar.style.width = '100%';
+      });
+      setTimeout(() => {
+        bar.style.transition = 'opacity 0.35s ease';
+        bar.style.opacity = '0';
+      }, 520);
+      setTimeout(() => {
+        bar.style.transition = 'none';
+        bar.style.width = '0%';
+      }, 900);
+    }
+  }
+
+  setupPageTransitions() {
+    const nav = document.querySelector('[data-nv-nav]');
+    const bar = document.querySelector('[data-nv-progress]');
+    if (!nav) return;
+    const links = nav.querySelectorAll('a[href]');
+    links.forEach(link => {
+      link.addEventListener('click', (ev) => {
+        if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('http') || link.target === '_blank') return;
+        ev.preventDefault();
+
+        // Exit animation: sweep the progress bar, pulse the clicked link's underline
+        const u = link.querySelector('[data-nv-underline]');
+        if (u) {
+          u.style.transform = 'scaleX(1)';
+          u.style.boxShadow = '0 0 16px rgba(0,207,255,0.95)';
+        }
+        if (bar) {
+          bar.style.transition = 'none';
+          bar.style.opacity = '1';
+          bar.style.width = '0%';
+          requestAnimationFrame(() => {
+            bar.style.transition = 'width 0.32s cubic-bezier(0.22,1,0.36,1)';
+            bar.style.width = '100%';
+          });
+        }
+        if (nav) {
+          nav.style.transition = nav.style.transition + ', opacity 0.32s ease';
+          nav.style.opacity = '0.55';
+        }
+
+        setTimeout(() => { window.location.href = href; }, 300);
+      });
+    });
+  }
+
+  setupResponsiveNav() {
+    const navLinks = document.querySelector('.nv-nav-links');
+    const ctaBtn = document.querySelector('[data-nv-cta-btn]');
+    const hamburger = document.querySelector('[data-nv-hamburger]');
+    const mobileMenu = document.querySelector('[data-nv-mobile-menu]');
+    if (!hamburger || !mobileMenu) return;
+
+    const line1 = hamburger.querySelector('[data-nv-burger-line="1"]');
+    const line2 = hamburger.querySelector('[data-nv-burger-line="2"]');
+    const line3 = hamburger.querySelector('[data-nv-burger-line="3"]');
+    let menuOpen = false;
+
+    const closeMenu = () => {
+      menuOpen = false;
+      mobileMenu.style.maxHeight = '0px';
+      mobileMenu.style.opacity = '0';
+      hamburger.setAttribute('aria-expanded', 'false');
+      if (line1) { line1.style.top = '0'; line1.style.transform = 'none'; }
+      if (line2) line2.style.opacity = '1';
+      if (line3) { line3.style.top = '11px'; line3.style.transform = 'none'; }
+    };
+    const openMenu = () => {
+      menuOpen = true;
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      mobileMenu.style.opacity = '1';
+      hamburger.setAttribute('aria-expanded', 'true');
+      if (line1) { line1.style.top = '5.5px'; line1.style.transform = 'rotate(45deg)'; }
+      if (line2) line2.style.opacity = '0';
+      if (line3) { line3.style.top = '5.5px'; line3.style.transform = 'rotate(-45deg)'; }
+    };
+
+    hamburger.addEventListener('click', () => { menuOpen ? closeMenu() : openMenu(); });
+    document.addEventListener('click', (ev) => {
+      if (!menuOpen) return;
+      if (ev.target.closest('[data-nv-mobile-menu]') || ev.target.closest('[data-nv-hamburger]')) return;
+      closeMenu();
+    });
+    document.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Escape' && menuOpen) closeMenu();
+    });
+    mobileMenu.querySelectorAll('a[href]').forEach((a) => {
+      a.addEventListener('click', closeMenu);
+    });
+    mobileMenu.querySelectorAll('[data-nv-lang-option]').forEach((btn) => {
+      btn.addEventListener('click', () => { setTimeout(closeMenu, 350); });
+    });
+
+    const mq = window.matchMedia('(max-width: 980px)');
+    const applyState = (isMobile) => {
+      if (navLinks) navLinks.style.display = isMobile ? 'none' : 'flex';
+      if (ctaBtn) ctaBtn.style.display = isMobile ? 'none' : 'inline-flex';
+      hamburger.style.display = isMobile ? 'flex' : 'none';
+      if (!isMobile) closeMenu();
+    };
+    applyState(mq.matches);
+    mq.addEventListener('change', (ev) => applyState(ev.matches));
+  }
+
+  componentDidMount() {
+    this.applyActiveStyles();
+    this.playEntrance();
+    this.setupPageTransitions();
+    this.setupResponsiveNav();
+
+    const nav = document.querySelector('[data-nv-nav]');
+    const onScroll = () => {
+      const on = window.scrollY > 30;
+      nav.style.background = on ? 'rgba(2,9,25,0.72)' : 'rgba(2,9,25,0)';
+      nav.style.backdropFilter = on ? 'blur(18px)' : 'none';
+      nav.style.webkitBackdropFilter = nav.style.backdropFilter;
+      nav.style.borderBottomColor = on ? 'rgba(0,207,255,0.12)' : 'rgba(255,255,255,0)';
+      nav.style.boxShadow = on ? '0 10px 40px rgba(0,0,0,0.4)' : 'none';
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    document.querySelectorAll('[data-nv-link]').forEach(link => {
+      const u = link.querySelector('[data-nv-underline]');
+      const active = link.getAttribute('data-active') === 'true';
+      link.addEventListener('mouseenter', () => { if (u) u.style.transform = 'scaleX(1)'; if (!active) link.style.color = '#FFFFFF'; });
+      link.addEventListener('mouseleave', () => { if (!active) { if (u) u.style.transform = 'scaleX(0)'; link.style.color = 'rgba(255,255,255,0.7)'; } });
+    });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', (ev) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ev.clientX - (r.left + r.width / 2);
+          const dy = ev.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          btn.style.transform = 'translate(0,0)';
+          setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+      });
+    }
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script src="./ar-dict.js"></script>
+<script src="./i18n.js"></script>
+<script src="./site-data.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #020919; font-family: 'Manrope', sans-serif; color: #FFFFFF; overflow-x: hidden; }
+* { box-sizing: border-box; }
+a { color: #00CFFF; text-decoration: none; }
+a:hover { color: #7FE4FF; }
+::selection { background: rgba(0,207,255,0.3); }
+@keyframes nvPulse { 0%,100% { box-shadow: 0 0 24px rgba(0,207,255,0.45), 0 0 60px rgba(0,207,255,0.18); } 50% { box-shadow: 0 0 40px rgba(0,207,255,0.75), 0 0 90px rgba(0,207,255,0.3); } }
+@keyframes nvGrid { from { background-position: 0 0; } to { background-position: 64px 64px; } }
+@keyframes nvGlowDrift { 0%,100% { transform: translate(0,0) scale(1); opacity: 0.55; } 50% { transform: translate(60px,-40px) scale(1.15); opacity: 0.8; } }
+@keyframes nvGlowDrift2 { 0%,100% { transform: translate(0,0) scale(1.1); opacity: 0.4; } 50% { transform: translate(-70px,50px) scale(0.95); opacity: 0.65; } }
+@keyframes nvShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+@keyframes nvStreak { 0% { transform: translateX(-120%) skewX(-20deg); opacity: 0; } 15% { opacity: 0.8; } 85% { opacity: 0.8; } 100% { transform: translateX(240%) skewX(-20deg); opacity: 0; } }
+@keyframes nvRipple { from { transform: scale(0); opacity: 0.5; } to { transform: scale(3); opacity: 0; } }
+.nv-reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.22,1,0.36,1), transform 0.9s cubic-bezier(0.22,1,0.36,1); }
+.nv-reveal.nv-in { opacity: 1; transform: translateY(0); }
+.nv-gallery-item { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); aspect-ratio: 4/3; }
+.nv-gallery-item img, .nv-gallery-item video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+.nv-gallery-item:hover img, .nv-gallery-item:hover video { transform: scale(1.06); }
+
+@media (max-width: 980px) {
+  .nv-nav-links { display: none; }
+  .nv-nav-en { display: none; }
+  .nv-project-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .nv-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-cta-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .nv-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .nv-hero-title { font-size: 42px !important; }
+}
+@media (max-width: 640px) {
+  .nv-gallery-grid { grid-template-columns: 1fr !important; }
+  .nv-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .nv-hero-title { font-size: 34px !important; }
+}
+</style>
+</helmet>
+
+<dc-import name="Background" particles="{{ true }}" grid="{{ true }}" hint-size="100%,100%"></dc-import>
+<dc-import name="Nav" active-page="portfolio" hint-size="100%,84px"></dc-import>
+
+<div id="nv-project-loaded" style="display: none;">
+  <header data-screen-label="Project Hero" style="position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 150px 32px 30px;">
+    <a href="Portfolio.dc.html" class="nv-reveal" style="display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #00CFFF; margin-bottom: 26px;" style-hover="gap: 12px; color: #7FE4FF;"><span>←</span><span data-i18n="project.back">Back to Portfolio</span></a>
+    <div class="nv-reveal" style="display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; border: 1px solid rgba(0,207,255,0.35); background: rgba(0,207,255,0.06); margin-bottom: 20px;">
+      <span id="proj-category" data-i18n="" style="font-size: 11px; font-weight: 700; letter-spacing: 0.24em; color: #00CFFF; text-transform: uppercase; white-space: nowrap;"></span>
+    </div>
+    <h1 id="proj-title" data-i18n="" class="nv-reveal nv-hero-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 52px; line-height: 1.12; font-weight: 700; margin: 0 0 22px; letter-spacing: -0.02em;"></h1>
+    <p id="proj-description" data-i18n="" class="nv-reveal" style="font-size: 17px; line-height: 1.75; color: rgba(255,255,255,0.75); max-width: 760px; margin: 0;"></p>
+  </header>
+
+  <section data-screen-label="Project Cover" style="position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 20px 32px 20px;">
+    <div class="nv-reveal" id="proj-cover-wrap" style="border-radius: 22px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 30px 70px rgba(0,0,0,0.45);">
+      <img id="proj-cover" src="" alt="" style="width: 100%; display: block; object-fit: cover;">
+    </div>
+  </section>
+
+  <section data-screen-label="Project Actions" style="position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 10px 32px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+    <a id="proj-visit-link" href="#" target="_blank" rel="noopener" data-nv-magnetic="" data-nv-ripple="" style="display: none; position: relative; overflow: hidden; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 15px; font-weight: 800; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span data-i18n="project.visit">Visit Live Project</span><span>↗</span></a>
+    <a href="Contact.dc.html" data-nv-magnetic="" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); backdrop-filter: blur(8px); color: #FFFFFF; font-size: 15px; font-weight: 700; white-space: nowrap; transition: border-color 0.35s, box-shadow 0.35s;" style-hover="border-color: rgba(0,207,255,0.6); box-shadow: 0 0 22px rgba(0,207,255,0.25); color: #FFFFFF;"><span data-i18n="project.startSimilar">Start a Similar Project</span></a>
+  </section>
+
+  <section data-screen-label="Project Gallery" id="proj-gallery-section" style="position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; padding: 30px 32px 40px; display: none;">
+    <h2 class="nv-reveal" data-i18n="project.gallery" style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; margin: 0 0 22px;">Gallery</h2>
+    <div class="nv-reveal nv-gallery-grid" id="proj-gallery" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;"></div>
+  </section>
+
+  <section data-screen-label="CTA" style="position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 40px 32px 100px;">
+    <div class="nv-reveal nv-cta-grid" style="position: relative; overflow: hidden; border-radius: 26px; border: 1px solid rgba(0,207,255,0.22); background: linear-gradient(120deg, rgba(6,20,45,0.9), rgba(2,9,25,0.95)); box-shadow: 0 30px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08); display: grid; grid-template-columns: 1fr; align-items: center; text-align: center;">
+      <div style="position: absolute; top: 0; left: -40%; width: 30%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,207,255,0.08), transparent); animation: nvStreak 5s ease-in-out infinite;"></div>
+      <div style="position: relative; padding: 64px 40px;">
+        <h2 data-i18n="portfolio.cta.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 38px; font-weight: 700; line-height: 1.25; margin: 0 0 30px; letter-spacing: -0.015em;">Want results like these for <span style="color: #00CFFF; text-shadow: 0 0 30px rgba(0,207,255,0.5);">your brand?</span></h2>
+        <a href="Contact.dc.html" data-nv-magnetic="" data-nv-ripple="" style="position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 10px; padding: 16px 34px; border-radius: 12px; background: linear-gradient(135deg, #00CFFF, #3B82F6); color: #021019; font-size: 16px; font-weight: 800; white-space: nowrap; animation: nvPulse 3s ease-in-out infinite;" style-hover="color: #021019;"><span data-i18n="portfolio.cta.button">Start Your Project</span><span>→</span></a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="nv-project-not-found" style="display: none; position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 200px 32px 140px; text-align: center;">
+  <h1 data-i18n="project.notFound.title" style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; margin: 0 0 16px;">Project Not Found</h1>
+  <p data-i18n="project.notFound.desc" style="font-size: 16px; line-height: 1.7; color: rgba(255,255,255,0.7); margin: 0 0 32px;">This project may have been removed, or the link is incorrect.</p>
+  <a href="Portfolio.dc.html" data-nv-magnetic="" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); color: #FFFFFF; font-size: 15px; font-weight: 700;" style-hover="border-color: rgba(0,207,255,0.6); color: #FFFFFF;"><span data-i18n="project.notFound.cta">Back to Portfolio</span></a>
+</div>
+
+<dc-import name="Footer" hint-size="100%,400px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const FALLBACK_PORTFOLIO = [
+  { id: 'ecommerce', title: { en: 'E-Commerce Platform', ar: 'منصة تجارة إلكترونية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-1.png', projectUrl: '', gallery: [], description: { en: 'A full-featured online storefront built for a growing retail brand — product catalog, cart, secure checkout, and an admin dashboard for managing inventory and orders in real time.', ar: 'منصة تجارة إلكترونية متكاملة لعلامة تجارية في طور النمو — كتالوج منتجات، سلة تسوق، دفع آمن، ولوحة تحكم لإدارة المخزون والطلبات في الوقت الفعلي.' } },
+  { id: 'fooddelivery', title: { en: 'Food Delivery App', ar: 'تطبيق توصيل الطعام' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: 'assets/proj-2.png', projectUrl: '', gallery: [], description: { en: 'A native mobile app connecting local restaurants with hungry customers — live order tracking, in-app payments, and a driver dashboard that keeps deliveries on time.', ar: 'تطبيق جوال أصلي يربط المطاعم المحلية بالعملاء — تتبع مباشر للطلبات، دفع داخل التطبيق، ولوحة تحكم للسائقين تضمن وصول الطلبات في وقتها.' } },
+  { id: 'techstartup', title: { en: 'Tech Startup Identity', ar: 'هوية شركة تقنية ناشئة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: 'assets/proj-3.png', projectUrl: '', gallery: [], description: { en: 'A complete brand identity for an early-stage SaaS startup — logo system, color palette, typography, and a pitch-deck template built to win investor confidence.', ar: 'هوية بصرية متكاملة لشركة تقنية ناشئة في مراحلها الأولى — نظام شعار، لوحة ألوان، طباعة، ونموذج عرض تقديمي مصمم لكسب ثقة المستثمرين.' } },
+  { id: 'realestate', title: { en: 'Real Estate Portal', ar: 'بوابة عقارية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-4.png', projectUrl: '', gallery: [], description: { en: 'A property listings platform with advanced search filters, virtual tours, and agent profiles — designed to make browsing and booking viewings effortless.', ar: 'منصة إعلانات عقارية بفلاتر بحث متقدمة، جولات افتراضية، وملفات للوكلاء العقاريين — مصممة لتسهيل تصفح العقارات وحجز الزيارات.' } },
+  { id: 'fittrack', title: { en: 'FitTrack Wellness App', ar: 'تطبيق FitTrack للياقة البدنية' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: null, projectUrl: '', gallery: [], description: { en: 'A fitness and wellness companion app with personalized workout plans, progress tracking, and social challenges to keep users motivated.', ar: 'تطبيق للياقة البدنية والعافية يقدم خطط تمارين مخصصة، تتبع التقدم، وتحديات اجتماعية تحافظ على تحفيز المستخدمين.' } },
+  { id: 'horizon', title: { en: 'Horizon SaaS Dashboard', ar: 'لوحة تحكم Horizon SaaS' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: null, projectUrl: '', gallery: [], description: { en: 'A data-dense analytics dashboard for a B2B SaaS product — real-time charts, team permissions, and a design system built to scale across every screen.', ar: 'لوحة تحكم تحليلية غنية بالبيانات لمنتج SaaS موجه للشركات — رسوم بيانية فورية، صلاحيات فرق العمل، ونظام تصميم مبني للتوسع عبر كل الشاشات.' } },
+  { id: 'aurora', title: { en: 'Aurora Skincare Rebrand', ar: 'إعادة تصميم هوية Aurora لمستحضرات البشرة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: null, projectUrl: '', gallery: [], description: { en: 'A ground-up rebrand for a skincare label — packaging design, a soft and premium visual language, and brand guidelines for a confident market relaunch.', ar: 'إعادة تصميم شاملة لهوية علامة تجارية لمستحضرات العناية بالبشرة — تصميم تغليف، لغة بصرية فاخرة وناعمة، وإرشادات هوية لإطلاق واثق في السوق.' } },
+  { id: 'marche', title: { en: 'Marché Boutique Identity', ar: 'هوية متجر Marché' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: null, projectUrl: '', gallery: [], description: { en: 'A warm, editorial brand identity for a boutique retailer — logo, packaging, and in-store signage that bring a curated shopping experience to life.', ar: 'هوية تجارية دافئة وأنيقة لمتجر بوتيك — شعار، تغليف، ولافتات داخل المتجر تجسد تجربة تسوق مختارة بعناية.' } },
+];
+
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+class Component extends DCLogic {
+  wireReveal(container) {
+    const reveals = Array.from(container.querySelectorAll('.nv-reveal'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('nv-in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => io.observe(el));
+  }
+
+  renderGalleryItem(entry) {
+    const media = entry.type === 'video'
+      ? `<video src="${escapeHtml(entry.url)}" controls muted playsinline></video>`
+      : `<img src="${escapeHtml(entry.url)}" alt="" loading="lazy">`;
+    return `<div class="nv-gallery-item">${media}</div>`;
+  }
+
+  renderNotFound() {
+    document.getElementById('nv-project-loaded').style.display = 'none';
+    const nf = document.getElementById('nv-project-not-found');
+    nf.style.display = '';
+    this.wireReveal(nf);
+  }
+
+  renderProject(item) {
+    const titleKey = '__project_' + item.id + '_title';
+    const catKey = '__project_' + item.id + '_category';
+    const descKey = '__project_' + item.id + '_description';
+    window.NV_AR_DICT = window.NV_AR_DICT || {};
+    window.NV_AR_DICT[titleKey] = item.title.ar || item.title.en || '';
+    window.NV_AR_DICT[catKey] = item.category.ar || item.category.en || '';
+    window.NV_AR_DICT[descKey] = (item.description && item.description.ar) || (item.description && item.description.en) || '';
+
+    document.title = item.title.en || 'Project';
+
+    const titleEl = document.getElementById('proj-title');
+    titleEl.textContent = item.title.en || '';
+    titleEl.setAttribute('data-i18n', titleKey);
+
+    const catEl = document.getElementById('proj-category');
+    catEl.textContent = item.category.en || '';
+    catEl.setAttribute('data-i18n', catKey);
+
+    const descEl = document.getElementById('proj-description');
+    const descText = (item.description && item.description.en) || '';
+    descEl.textContent = descText;
+    descEl.setAttribute('data-i18n', descKey);
+    descEl.style.display = descText ? '' : 'none';
+
+    const coverWrap = document.getElementById('proj-cover-wrap');
+    const coverImg = document.getElementById('proj-cover');
+    if (item.image) {
+      coverImg.src = item.image;
+      coverImg.alt = item.title.en || '';
+      coverWrap.style.display = '';
+    } else {
+      coverWrap.style.display = 'none';
+    }
+
+    const visitLink = document.getElementById('proj-visit-link');
+    if (item.projectUrl) {
+      visitLink.href = item.projectUrl;
+      visitLink.style.display = 'inline-flex';
+    } else {
+      visitLink.style.display = 'none';
+    }
+
+    const gallerySection = document.getElementById('proj-gallery-section');
+    const galleryGrid = document.getElementById('proj-gallery');
+    const gallery = item.gallery || [];
+    if (gallery.length) {
+      galleryGrid.innerHTML = gallery.map(g => this.renderGalleryItem(g)).join('');
+      gallerySection.style.display = '';
+    } else {
+      gallerySection.style.display = 'none';
+    }
+
+    document.getElementById('nv-project-loaded').style.display = '';
+    this.wireReveal(document.getElementById('nv-project-loaded'));
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-nv-magnetic]').forEach(btn => {
+        btn.addEventListener('mousemove', (ev) => {
+          const r = btn.getBoundingClientRect();
+          const dx = ev.clientX - (r.left + r.width / 2);
+          const dy = ev.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate(' + (dx * 0.22) + 'px,' + (dy * 0.3) + 'px)';
+        });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1)';
+          btn.style.transform = 'translate(0,0)';
+          setTimeout(() => { btn.style.transition = ''; }, 500);
+        });
+      });
+    }
+
+    document.querySelectorAll('[data-nv-ripple]').forEach(btn => {
+      btn.addEventListener('click', (ev) => {
+        const r = btn.getBoundingClientRect();
+        const s = document.createElement('span');
+        const size = Math.max(r.width, r.height);
+        s.style.cssText = 'position:absolute;border-radius:50%;background:rgba(255,255,255,0.5);pointer-events:none;width:' + size + 'px;height:' + size + 'px;left:' + (ev.clientX - r.left - size / 2) + 'px;top:' + (ev.clientY - r.top - size / 2) + 'px;animation:nvRipple 0.7s ease-out forwards;';
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
+    });
+
+    if (window.NVI18N && window.NVI18N.applyAll) window.NVI18N.applyAll();
+  }
+
+  async componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+
+    let items = FALLBACK_PORTFOLIO;
+    try {
+      const res = await fetch('/api/portfolio');
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length) items = data;
+      }
+    } catch (e) {}
+
+    const item = id ? items.find(p => p.id === id) : null;
+    if (item) {
+      this.renderProject(item);
+    } else {
+      this.renderNotFound();
+    }
+  }
+}
+</script>
+</body>
+</html>
