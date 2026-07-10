@@ -1,8 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — Our Work | Next Vision Agency</title>
+<meta name="description" content="A selection of the products, brands, and platforms Next Vision Agency has helped bring to life — web development, mobile apps, and branding.">
+<link rel="canonical" href="/Portfolio.dc.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portfolio — Our Work | Next Vision Agency">
+<meta property="og:description" content="A selection of the products, brands, and platforms we've helped bring to life.">
+<meta property="og:image" content="/assets/og-image.png">
+<meta property="og:url" content="/Portfolio.dc.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Portfolio — Our Work | Next Vision Agency">
+<meta name="twitter:description" content="A selection of the products, brands, and platforms we've helped bring to life.">
+<meta name="twitter:image" content="/assets/og-image.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <script src="./support.js"></script>
 <script src="./ar-dict.js"></script>
 <script src="./i18n.js"></script>
@@ -105,10 +121,10 @@ a:hover { color: #7FE4FF; }
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 const FALLBACK_PORTFOLIO = [
-  { id: 'ecommerce', title: { en: 'E-Commerce Platform', ar: 'منصة تجارة إلكترونية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-1.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
-  { id: 'fooddelivery', title: { en: 'Food Delivery App', ar: 'تطبيق توصيل الطعام' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: 'assets/proj-2.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
-  { id: 'techstartup', title: { en: 'Tech Startup Identity', ar: 'هوية شركة تقنية ناشئة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: 'assets/proj-3.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
-  { id: 'realestate', title: { en: 'Real Estate Portal', ar: 'بوابة عقارية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-4.png', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'ecommerce', title: { en: 'E-Commerce Platform', ar: 'منصة تجارة إلكترونية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-1.webp', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'fooddelivery', title: { en: 'Food Delivery App', ar: 'تطبيق توصيل الطعام' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: 'assets/proj-2.webp', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'techstartup', title: { en: 'Tech Startup Identity', ar: 'هوية شركة تقنية ناشئة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: 'assets/proj-3.webp', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
+  { id: 'realestate', title: { en: 'Real Estate Portal', ar: 'بوابة عقارية' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: 'assets/proj-4.webp', projectUrl: '', gallery: [], description: { en: '', ar: '' } },
   { id: 'fittrack', title: { en: 'FitTrack Wellness App', ar: 'تطبيق FitTrack للياقة البدنية' }, category: { en: 'Mobile Application', ar: 'تطبيق جوال' }, tag: 'mobile', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
   { id: 'horizon', title: { en: 'Horizon SaaS Dashboard', ar: 'لوحة تحكم Horizon SaaS' }, category: { en: 'Web Development', ar: 'تطوير المواقع' }, tag: 'web', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
   { id: 'aurora', title: { en: 'Aurora Skincare Rebrand', ar: 'إعادة تصميم هوية Aurora لمستحضرات البشرة' }, category: { en: 'Branding', ar: 'الهوية التجارية' }, tag: 'branding', image: null, projectUrl: '', gallery: [], description: { en: '', ar: '' } },
@@ -162,7 +178,7 @@ class Component extends DCLogic {
     window.NV_AR_DICT[catKey] = item.category.ar;
 
     const media = item.image
-      ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title.en)}" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">`
+      ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title.en)}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s cubic-bezier(0.22,1,0.36,1);" data-nv-zoom="">`
       : `<div style="width:100%;height:100%;background: linear-gradient(145deg, rgba(0,207,255,0.14), rgba(59,130,246,0.06)); display: grid; place-items: center;"><svg width="56" height="56" viewBox="0 0 28 28" fill="none"><rect x="4" y="4" width="20" height="20" rx="4" stroke="#00CFFF" stroke-width="1.6"></rect><path d="M9 14 L12.5 17.5 L19 10" stroke="#00CFFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>`;
 
     const hasLightboxContent = (item.gallery && item.gallery.length) || item.projectUrl || (item.description && item.description.en);

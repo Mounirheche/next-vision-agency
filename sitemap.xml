@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://next-vision-agency.vercel.app/Next%20Vision%20Agency.dc.html</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://next-vision-agency.vercel.app/Services.dc.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://next-vision-agency.vercel.app/Portfolio.dc.html</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://next-vision-agency.vercel.app/About.dc.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://next-vision-agency.vercel.app/Contact.dc.html</loc>
+    <priority>0.7</priority>
+  </url>
+</urlset>
