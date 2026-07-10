@@ -3,4 +3,4 @@ Allow: /
 Disallow: /dashboard/
 Disallow: /api/
 
-Sitemap: https://next-vision-agency.vercel.app/sitemap.xml
+Sitemap: https://next-vision-agency-mounirheche.vercel.app/sitemap.xml
