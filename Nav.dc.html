@@ -109,8 +109,12 @@ class Component extends DCLogic {
         if (active && u) u.style.transform = 'scaleX(1)';
       });
     }, 260);
-    // Top progress sweep signals the new page has arrived
-    if (bar) {
+    // Top progress sweep signals the new page has arrived - only for a mount that
+    // followed an in-site nav click (flag set in setupPageTransitions), so a plain
+    // page load or refresh doesn't flash it for no reason.
+    const cameFromNavClick = sessionStorage.getItem('nvNavTransition') === '1';
+    sessionStorage.removeItem('nvNavTransition');
+    if (bar && cameFromNavClick) {
       bar.style.transition = 'none';
       bar.style.opacity = '1';
       bar.style.width = '0%';
@@ -161,6 +165,7 @@ class Component extends DCLogic {
           nav.style.opacity = '0.55';
         }
 
+        sessionStorage.setItem('nvNavTransition', '1');
         setTimeout(() => { window.location.href = href; }, 300);
       });
     });
