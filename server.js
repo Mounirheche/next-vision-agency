@@ -59,6 +59,11 @@ const ready = (async () => {
   });
   if (changed) await db.write("portfolio", next);
 })();
+// A startup failure (e.g. Supabase briefly unreachable) must not crash the whole
+// process before any request even arrives — the readiness middleware below
+// already turns it into a clean 500 per-request; this just stops Node from
+// treating the same rejection as an unhandled one at module scope.
+ready.catch((err) => console.error("Startup failed:", err));
 
 const app = express();
 app.disable("x-powered-by");
