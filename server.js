@@ -34,7 +34,7 @@ let plaintextPassword = null;
 // Ensure data exists with sane defaults on first run, and migrate older
 // portfolio entries to the current shape. Every request waits on this via
 // the readiness middleware below, so it's safe even on a cold serverless start.
-const ready = (async () => {
+async function runStartup() {
   await db.read("settings", seed.DEFAULT_SETTINGS);
   await db.read("portfolio", seed.DEFAULT_PORTFOLIO);
   await db.read("testimonials", seed.DEFAULT_TESTIMONIALS);
@@ -59,19 +59,35 @@ const ready = (async () => {
     return item;
   });
   if (changed) await db.write("portfolio", next);
-})();
-// A startup failure (e.g. Supabase briefly unreachable) must not crash the whole
-// process before any request even arrives — the readiness middleware below
-// already turns it into a clean 500 per-request; this just stops Node from
-// treating the same rejection as an unhandled one at module scope.
-ready.catch((err) => console.error("Startup failed:", err));
+}
+
+// A rejected promise stays rejected forever — if startup failed once (e.g. Supabase
+// briefly unreachable) and we cached that same promise, every request on this warm
+// serverless instance would 500 for the rest of its life, long after the underlying
+// issue clears. Clearing readyPromise on failure means the next request retries
+// startup fresh instead of replaying a stale rejection.
+let readyPromise = null;
+function getReady() {
+  if (!readyPromise) {
+    readyPromise = runStartup().catch((err) => {
+      readyPromise = null;
+      throw err;
+    });
+  }
+  return readyPromise;
+}
+// Kick off startup eagerly so a cold start doesn't wait for the first request to
+// even begin connecting; also stops Node from treating the rejection as unhandled
+// at module scope. The readiness middleware below still re-checks (and can retry)
+// per request via getReady().
+getReady().catch((err) => console.error("Startup failed:", err));
 
 const app = express();
 app.disable("x-powered-by");
 app.use(express.json({ limit: "2mb" }));
 
 app.use((req, res, next) => {
-  ready.then(() => next()).catch((err) => {
+  getReady().then(() => next()).catch((err) => {
     console.error("Startup failed:", err);
     res.status(500).json({ error: "Server is not ready yet, try again shortly." });
   });
@@ -573,7 +589,7 @@ app.use((err, req, res, next) => {
 // Vercel imports this file as a serverless handler (module.exports = app) and
 // never calls listen(); only bind a real port when run directly (local dev).
 if (require.main === module) {
-  ready.then(() => {
+  getReady().then(() => {
     app.listen(PORT, () => {
       console.log(`Next Vision Agency server running at http://localhost:${PORT}`);
       console.log(`Dashboard:  http://localhost:${PORT}/dashboard/login.html`);
