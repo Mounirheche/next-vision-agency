@@ -2,6 +2,7 @@
 const express = require("express");
 require("express-async-errors"); // must load after express, before routes are defined
 const cookieSession = require("cookie-session");
+const compression = require("compression");
 const rateLimit = require("express-rate-limit");
 const multer = require("multer");
 const path = require("path");
@@ -84,6 +85,7 @@ getReady().catch((err) => console.error("Startup failed:", err));
 
 const app = express();
 app.disable("x-powered-by");
+app.use(compression());
 app.use(express.json({ limit: "2mb" }));
 
 app.use((req, res, next) => {
@@ -568,7 +570,7 @@ app.use("/dashboard", (req, res, next) => {
   if (req.session && req.session.user) return next();
   return res.redirect("/dashboard/login.html");
 });
-app.use("/dashboard", express.static(path.join(ROOT, "dashboard")));
+app.use("/dashboard", express.static(path.join(ROOT, "dashboard"), { maxAge: "5m" }));
 
 // ---------- The existing static site ----------
 app.get("/", (req, res) => res.redirect("/Next%20Vision%20Agency.dc.html"));
@@ -587,7 +589,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.static(ROOT));
+// Pages/scripts get a short cache (deploys should show up within minutes without
+// needing a hard refresh); binary assets that almost never change in place get a
+// much longer one so repeat visits skip the network for them entirely.
+app.use(
+  express.static(ROOT, {
+    maxAge: "5m",
+    setHeaders: (res, filePath) => {
+      if (/[/\\]assets[/\\]/.test(filePath) || /\.(?:png|jpe?g|webp|gif|svg|ico|woff2?|ttf)$/i.test(filePath)) {
+        res.setHeader("Cache-Control", "public, max-age=604800, stale-while-revalidate=86400");
+      }
+    },
+  })
+);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
