@@ -572,6 +572,21 @@ app.use("/dashboard", express.static(path.join(ROOT, "dashboard")));
 
 // ---------- The existing static site ----------
 app.get("/", (req, res) => res.redirect("/Next%20Vision%20Agency.dc.html"));
+
+// Some link-in-bio tools (seen with an Instagram bio link) double-encode the URL
+// they're given — "Next Vision Agency.dc.html#top" becomes
+// "Next%2520Vision%2520Agency.dc.html%23top". req.path is never decoded by
+// Express (that only happens inside static-file lookup), so it never matches
+// the real file. Recognize just that one mangled raw path and send people home
+// instead of a 404; this is an exact-string check, not a general re-decode, so
+// it can't be abused for path traversal the way blindly decoding twice could.
+app.use((req, res, next) => {
+  if (req.path === "/Next%2520Vision%2520Agency.dc.html%23top" || req.path === "/Next%2520Vision%2520Agency.dc.html") {
+    return res.redirect(301, "/");
+  }
+  next();
+});
+
 app.use(express.static(ROOT));
 
 // eslint-disable-next-line no-unused-vars
